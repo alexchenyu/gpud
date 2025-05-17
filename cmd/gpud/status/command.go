@@ -1,3 +1,4 @@
+// Package status implements the "status" command.
 package status
 
 import (
@@ -6,10 +7,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/urfave/cli"
+	"github.com/spf13/cobra"
 
 	clientv1 "github.com/leptonai/gpud/client/v1"
 	cmdcommon "github.com/leptonai/gpud/cmd/common"
+	"github.com/leptonai/gpud/cmd/gpud/common"
 	"github.com/leptonai/gpud/pkg/config"
 	"github.com/leptonai/gpud/pkg/errdefs"
 	"github.com/leptonai/gpud/pkg/log"
@@ -18,13 +20,32 @@ import (
 	"github.com/leptonai/gpud/pkg/systemd"
 )
 
-func Command(cliContext *cli.Context) error {
-	logLevel := cliContext.String("log-level")
-	zapLvl, err := log.ParseLogLevel(logLevel)
+// Command returns the cobra command for the "status" command.
+func Command() *cobra.Command {
+	return cmdRoot
+}
+
+var cmdRoot = &cobra.Command{
+	Use:     "status",
+	Aliases: []string{"st"},
+	Short:   "checks the status of gpud",
+	RunE:    cmdRootFunc,
+}
+
+var flagWatch bool
+
+func init() {
+	cmdRoot.PersistentFlags().BoolVarP(&flagWatch, "watch", "w", false, "watch for package install status")
+}
+
+func cmdRootFunc(cmd *cobra.Command, args []string) error {
+	var err error
+	log.Logger, _, err = common.CreateLoggerFromFlags(cmd)
 	if err != nil {
 		return err
 	}
-	log.Logger = log.CreateLogger(zapLvl, "")
+
+	log.Logger.Debugw("starting status command")
 
 	rootCtx, rootCancel := context.WithTimeout(context.Background(), 2*time.Minute)
 	defer rootCancel()
@@ -75,8 +96,6 @@ func Command(cliContext *cli.Context) error {
 	}
 	fmt.Printf("%s successfully checked gpud health\n", cmdcommon.CheckMark)
 
-	statusWatch := cliContext.Bool("watch")
-
 	for {
 		cctx, ccancel := context.WithTimeout(rootCtx, 15*time.Second)
 		packageStatus, err := clientv1.GetPackageStatus(cctx, fmt.Sprintf("https://localhost:%d%s", config.DefaultGPUdPort, server.URLPathAdminPackages))
@@ -89,7 +108,7 @@ func Command(cliContext *cli.Context) error {
 			fmt.Printf("no packages found\n")
 			return nil
 		}
-		if statusWatch {
+		if flagWatch {
 			fmt.Print("\033[2J\033[H")
 		}
 		var totalTime int64
@@ -104,7 +123,7 @@ func Command(cliContext *cli.Context) error {
 			totalProgress = progress * 100 / totalTime
 		}
 		fmt.Printf("Total progress: %v%%, Estimate time left: %v\n", totalProgress, time.Duration(totalTime-progress)*time.Millisecond)
-		if !statusWatch {
+		if !flagWatch {
 			break
 		}
 		time.Sleep(3 * time.Second)

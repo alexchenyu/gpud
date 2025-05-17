@@ -1,21 +1,44 @@
-// Copyright (c) Tailscale Inc & AUTHORS
-// SPDX-License-Identifier: BSD-3-Clause
-// This file is based on https://github.com/tailscale/tailscale/blob/012933635b43ac41c8ff4340213bdae9abd6d059/cmd/dist/dist.go
-
 package release
 
 import (
 	"os"
 
-	"github.com/urfave/cli"
+	"github.com/spf13/cobra"
 	"golang.org/x/crypto/blake2s"
 
+	"github.com/leptonai/gpud/cmd/gpud/common"
+	"github.com/leptonai/gpud/pkg/log"
 	"github.com/leptonai/gpud/pkg/release/distsign"
 )
 
-func CommandSignPackage(cliContext *cli.Context) error {
-	signPrivPath := cliContext.String("sign-priv-path")
-	signPrivRaw, err := os.ReadFile(signPrivPath)
+var cmdSignPackage = &cobra.Command{
+	Use:   "sign-package",
+	Short: "sign a package with a signing key",
+	RunE:  cmdSignPackageFunc,
+}
+
+var (
+	flagSignPackagePackagePath  string
+	flagSignPackageSignPrivPath string
+	flagSignPackageSigPath      string
+)
+
+func init() {
+	cmdSignPackage.PersistentFlags().StringVar(&flagSignPackagePackagePath, "package-path", "", "path of package")
+	cmdSignPackage.PersistentFlags().StringVar(&flagSignPackageSignPrivPath, "sign-priv-path", "", "path of signing private key")
+	cmdSignPackage.PersistentFlags().StringVar(&flagSignPackageSigPath, "sig-path", "", "output path of signature path")
+}
+
+func cmdSignPackageFunc(cmd *cobra.Command, args []string) error {
+	var err error
+	log.Logger, _, err = common.CreateLoggerFromFlags(cmd)
+	if err != nil {
+		return err
+	}
+
+	log.Logger.Debugw("starting sign-package command")
+
+	signPrivRaw, err := os.ReadFile(flagSignPackageSignPrivPath)
 	if err != nil {
 		return err
 	}
@@ -24,8 +47,7 @@ func CommandSignPackage(cliContext *cli.Context) error {
 		return err
 	}
 
-	packagePath := cliContext.String("package-path")
-	pkgData, err := os.ReadFile(packagePath)
+	pkgData, err := os.ReadFile(flagSignPackagePackagePath)
 	if err != nil {
 		return err
 	}
@@ -36,9 +58,9 @@ func CommandSignPackage(cliContext *cli.Context) error {
 		return err
 	}
 
-	sigPath := cliContext.String("sig-path")
-	if err := os.WriteFile(sigPath, sig, 0400); err != nil {
+	if err := os.WriteFile(flagSignPackageSigPath, sig, 0400); err != nil {
 		return err
 	}
+
 	return nil
 }

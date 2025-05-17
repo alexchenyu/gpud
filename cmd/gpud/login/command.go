@@ -1,14 +1,15 @@
+// Package login implements the "login" command.
 package login
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"time"
 
-	"github.com/urfave/cli"
+	"github.com/spf13/cobra"
 
 	cmdcommon "github.com/leptonai/gpud/cmd/common"
+	"github.com/leptonai/gpud/cmd/gpud/common"
 	"github.com/leptonai/gpud/pkg/config"
 	gpudstate "github.com/leptonai/gpud/pkg/gpud-state"
 	"github.com/leptonai/gpud/pkg/log"
@@ -19,27 +20,46 @@ import (
 	"github.com/leptonai/gpud/pkg/sqlite"
 )
 
+// Command returns the cobra command for the "login" command.
+func Command() *cobra.Command {
+	return cmdRoot
+}
+
+var cmdRoot = &cobra.Command{
+	Use:   "login",
+	Short: "login gpud to lepton.ai (called automatically in gpud up with non-empty --token)",
+	RunE:  cmdRootFunc,
+}
+
 var (
-	ErrEmptyToken = errors.New("token is empty")
+	flagToken     string
+	flagEndpoint  string
+	flagMachineID string
+	flagGPUCount  string
+	flagPrivateIP string
+	flagPublicIP  string
 )
 
-func Command(cliContext *cli.Context) error {
-	logLevel := cliContext.String("log-level")
-	zapLvl, err := log.ParseLogLevel(logLevel)
+func init() {
+	cmdRoot.PersistentFlags().StringVar(&flagToken, "token", "", "lepton.ai workspace token for checking in")
+	cmdRoot.PersistentFlags().StringVar(&flagEndpoint, "endpoint", "mothership-machine.app.lepton.ai", "endpoint for control plane")
+	cmdRoot.PersistentFlags().StringVar(&flagMachineID, "machine-id", "", "machine ID for checking in (only to override default machine id)")
+	cmdRoot.PersistentFlags().StringVar(&flagGPUCount, "gpu-count", "", "number of GPUs")
+	cmdRoot.PersistentFlags().StringVar(&flagPrivateIP, "private-ip", "", "private IP address")
+	cmdRoot.PersistentFlags().StringVar(&flagPublicIP, "public-ip", "", "public IP address")
+}
+
+func cmdRootFunc(cmd *cobra.Command, args []string) error {
+	var err error
+	log.Logger, _, err = common.CreateLoggerFromFlags(cmd)
 	if err != nil {
 		return err
 	}
-	log.Logger = log.CreateLogger(zapLvl, "")
 
-	token := cliContext.String("token")
-	if token == "" {
-		fmt.Print("Please visit https://dashboard.lepton.ai/ under Settings/Tokens to fetch your token\nPlease enter your token:")
-		if _, err := fmt.Scanln(&token); err != nil && err.Error() != "unexpected newline" {
-			return fmt.Errorf("failed reading input: %w", err)
-		}
-	}
-	if token == "" {
-		return ErrEmptyToken
+	log.Logger.Debugw("starting login command")
+
+	if flagToken == "" {
+		return common.ErrEmptyToken
 	}
 
 	rootCtx, rootCancel := context.WithTimeout(context.Background(), 2*time.Minute)
@@ -89,35 +109,27 @@ func Command(cliContext *cli.Context) error {
 	// previous/existing machine ID is not found (can be empty)
 	// if specified, the control plane will validate the machine ID
 	// otherwise, the control plane will assign a new machine ID
-	machineID := cliContext.String("machine-id") // can be empty
-
-	gpuCount := cliContext.String("gpu-count")
-
-	req, err := pkgmachineinfo.CreateLoginRequest(token, nvmlInstance, machineID, gpuCount)
+	req, err := pkgmachineinfo.CreateLoginRequest(flagToken, nvmlInstance, flagMachineID, flagGPUCount)
 	if err != nil {
 		return fmt.Errorf("failed to create login request: %w", err)
 	}
 
-	publicIP := cliContext.String("public-ip")
-	if publicIP != "" { // overwrite if not empty
-		req.Network.PublicIP = publicIP
+	if flagPrivateIP != "" { // overwrite if not empty
+		req.Network.PrivateIP = flagPrivateIP
 	}
-
-	privateIP := cliContext.String("private-ip")
-	if privateIP != "" { // overwrite if not empty
-		req.Network.PrivateIP = privateIP
+	if flagPublicIP != "" { // overwrite if not empty
+		req.Network.PublicIP = flagPublicIP
 	}
 
 	// machine ID has not been assigned yet
 	// thus request one and blocks until the login request is processed
-	endpoint := cliContext.String("endpoint")
-	loginResp, err := login.SendRequest(rootCtx, endpoint, *req)
+	loginResp, err := login.SendRequest(rootCtx, flagEndpoint, *req)
 	if err != nil {
 		return err
 	}
 
 	// persist only after the successful login
-	if err := gpudstate.SetMetadata(rootCtx, dbRW, gpudstate.MetadataKeyEndpoint, endpoint); err != nil {
+	if err := gpudstate.SetMetadata(rootCtx, dbRW, gpudstate.MetadataKeyEndpoint, flagEndpoint); err != nil {
 		return fmt.Errorf("failed to record endpoint: %w", err)
 	}
 	if err := gpudstate.SetMetadata(rootCtx, dbRW, gpudstate.MetadataKeyMachineID, loginResp.MachineID); err != nil {
@@ -141,7 +153,7 @@ func Command(cliContext *cli.Context) error {
 	// for GPUd >= v0.5, we assume "gpud login" first
 	// and then "gpud up"
 	// we still need this in case "gpud up" and then "gpud login" afterwards
-	if err := server.WriteToken(token, fifoFile); err != nil {
+	if err := server.WriteToken(flagToken, fifoFile); err != nil {
 		log.Logger.Debugw("failed to write token -- login before first gpud run/up", "error", err)
 	}
 

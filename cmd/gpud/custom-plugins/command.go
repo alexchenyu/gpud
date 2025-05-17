@@ -1,3 +1,4 @@
+// Package customplugins implements the "custom-plugins" command.
 package customplugins
 
 import (
@@ -9,10 +10,11 @@ import (
 	"time"
 
 	"github.com/olekukonko/tablewriter"
-	"github.com/urfave/cli"
+	"github.com/spf13/cobra"
 
 	apiv1 "github.com/leptonai/gpud/api/v1"
 	cmdcommon "github.com/leptonai/gpud/cmd/common"
+	"github.com/leptonai/gpud/cmd/gpud/common"
 	"github.com/leptonai/gpud/components"
 	nvidiacommon "github.com/leptonai/gpud/pkg/config/common"
 	customplugins "github.com/leptonai/gpud/pkg/custom-plugins"
@@ -21,15 +23,37 @@ import (
 	nvidianvml "github.com/leptonai/gpud/pkg/nvidia-query/nvml"
 )
 
-func Command(cliContext *cli.Context) error {
-	logLevel := cliContext.String("log-level")
-	zapLvl, err := log.ParseLogLevel(logLevel)
+// Command returns the cobra command for the "custom-plugins" command.
+func Command() *cobra.Command {
+	return cmdRoot
+}
+
+var cmdRoot = &cobra.Command{
+	Use:     "custom-plugins",
+	Aliases: []string{"cs", "plugin", "plugins"},
+	Short:   "checks/runs custom plugins",
+	RunE:    cmdRootFunc,
+}
+
+var (
+	flagRun      bool
+	flagFailFast bool
+)
+
+func init() {
+	cmdRoot.PersistentFlags().BoolVarP(&flagRun, "run", "r", false, "run the custom plugins")
+	cmdRoot.PersistentFlags().BoolVarP(&flagFailFast, "fail-fast", "f", true, "fail fast, exit immediately if any plugin returns unhealthy state")
+}
+
+func cmdRootFunc(cmd *cobra.Command, args []string) error {
+	var err error
+	log.Logger, _, err = common.CreateLoggerFromFlags(cmd)
 	if err != nil {
 		return err
 	}
-	log.Logger = log.CreateLogger(zapLvl, "")
 
-	args := cliContext.Args()
+	log.Logger.Debugw("starting custom-plugins command")
+
 	var specs customplugins.Specs
 	if len(args) == 0 {
 		log.Logger.Infow("using example specs")
@@ -58,8 +82,7 @@ func Command(cliContext *cli.Context) error {
 		return verr
 	}
 
-	customPluginsRun := cliContext.Bool("run")
-	if !customPluginsRun {
+	if !flagRun {
 		log.Logger.Infow("custom plugins are not run, only validating the specs")
 		return nil
 	}
@@ -72,17 +95,25 @@ func Command(cliContext *cli.Context) error {
 		return err
 	}
 
+	ibstatCommand, err := common.FlagIbstatCommand(cmd)
+	if err != nil {
+		return err
+	}
+	ibstatusCommand, err := common.FlagIbstatusCommand(cmd)
+	if err != nil {
+		return err
+	}
+
 	gpudInstance := &components.GPUdInstance{
 		RootCtx:      ctx,
 		NVMLInstance: nvmlInstance,
 		NVIDIAToolOverwrites: nvidiacommon.ToolOverwrites{
-			IbstatCommand:   cliContext.String("ibstat-command"),
-			IbstatusCommand: cliContext.String("ibstatus-command"),
+			IbstatCommand:   ibstatCommand,
+			IbstatusCommand: ibstatusCommand,
 		},
 	}
 
-	customPluginsFailFast := cliContext.Bool("fail-fast")
-	results, err := specs.ExecuteInOrder(gpudInstance, customPluginsFailFast)
+	results, err := specs.ExecuteInOrder(gpudInstance, flagFailFast)
 	if err != nil {
 		return err
 	}

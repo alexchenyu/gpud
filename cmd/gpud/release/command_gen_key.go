@@ -1,7 +1,3 @@
-// Copyright (c) Tailscale Inc & AUTHORS
-// SPDX-License-Identifier: BSD-3-Clause
-// This file is based on https://github.com/tailscale/tailscale/blob/012933635b43ac41c8ff4340213bdae9abd6d059/cmd/dist/dist.go
-
 package release
 
 import (
@@ -9,24 +5,51 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/urfave/cli"
+	"github.com/spf13/cobra"
 
+	"github.com/leptonai/gpud/cmd/gpud/common"
+	"github.com/leptonai/gpud/pkg/log"
 	"github.com/leptonai/gpud/pkg/release/distsign"
 )
 
-func CommandGenKey(cliContext *cli.Context) error {
-	root := cliContext.Bool("root")
-	signing := cliContext.Bool("signing")
-	var pub, priv []byte
+var cmdGenKey = &cobra.Command{
+	Use:   "gen-key",
+	Short: "generate root or signing key pair",
+	RunE:  cmdGenKeyFunc,
+}
+
+var (
+	flagGenKeyRoot     bool
+	flagGenKeySigning  bool
+	flagGenKeyPrivPath string
+	flagGenKeyPubPath  string
+)
+
+func init() {
+	cmdGenKey.PersistentFlags().BoolVar(&flagGenKeyRoot, "root", false, "generate root key")
+	cmdGenKey.PersistentFlags().BoolVar(&flagGenKeySigning, "signing", false, "generate signing key")
+	cmdGenKey.PersistentFlags().StringVar(&flagGenKeyPrivPath, "priv-path", "", "path of the private key")
+	cmdGenKey.PersistentFlags().StringVar(&flagGenKeyPubPath, "pub-path", "", "path of the public key")
+}
+
+func cmdGenKeyFunc(cmd *cobra.Command, args []string) error {
 	var err error
+	log.Logger, _, err = common.CreateLoggerFromFlags(cmd)
+	if err != nil {
+		return err
+	}
+
+	log.Logger.Debugw("starting gen-key command")
+
+	var pub, priv []byte
 	switch {
-	case root && signing:
+	case flagGenKeyRoot && flagGenKeySigning:
 		return errors.New("only one of --root or --signing can be set")
-	case !root && !signing:
+	case !flagGenKeyRoot && !flagGenKeySigning:
 		return errors.New("set either --root or --signing")
-	case root:
+	case flagGenKeyRoot:
 		priv, pub, err = distsign.GenerateRootKey()
-	case signing:
+	case flagGenKeySigning:
 		priv, pub, err = distsign.GenerateSigningKey()
 	}
 	if err != nil {
@@ -34,17 +57,15 @@ func CommandGenKey(cliContext *cli.Context) error {
 		return err
 	}
 
-	privPath := cliContext.String("priv-path")
-	if err := os.WriteFile(privPath, priv, 0400); err != nil {
+	if err := os.WriteFile(flagGenKeyPrivPath, priv, 0400); err != nil {
 		return fmt.Errorf("failed writing private key: %w", err)
 	}
-	fmt.Println("wrote private key to", privPath)
+	fmt.Println("wrote private key to", flagGenKeyPrivPath)
 
-	pubPath := cliContext.String("pub-path")
-	if err := os.WriteFile(pubPath, pub, 0400); err != nil {
+	if err := os.WriteFile(flagGenKeyPubPath, pub, 0400); err != nil {
 		return fmt.Errorf("failed writing public key: %w", err)
 	}
-	fmt.Println("wrote public key to", pubPath)
+	fmt.Println("wrote public key to", flagGenKeyPubPath)
 
 	return nil
 }

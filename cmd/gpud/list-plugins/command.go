@@ -1,3 +1,4 @@
+// Package listplugins implements the "list-plugins" command.
 package listplugins
 
 import (
@@ -5,34 +6,51 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/urfave/cli"
+	"github.com/spf13/cobra"
 
 	clientv1 "github.com/leptonai/gpud/client/v1"
+	"github.com/leptonai/gpud/cmd/gpud/common"
 	"github.com/leptonai/gpud/pkg/config"
 	"github.com/leptonai/gpud/pkg/log"
 )
 
-// Command implements the list-plugins command
-func Command(cliContext *cli.Context) error {
-	logLevel := cliContext.String("log-level")
-	zapLvl, err := log.ParseLogLevel(logLevel)
+// Command returns the cobra command for the "custom-plugins" command.
+func Command() *cobra.Command {
+	return cmdRoot
+}
+
+var cmdRoot = &cobra.Command{
+	Use:     "list-plugins",
+	Aliases: []string{"lp"},
+	Short:   "list all registered custom plugins",
+	RunE:    cmdRootFunc,
+}
+
+var flagServerAddr string
+
+func init() {
+	cmdRoot.PersistentFlags().StringVar(&flagServerAddr, "server", fmt.Sprintf("https://localhost:%d", config.DefaultGPUdPort), "GPUd server address")
+}
+
+func cmdRootFunc(cmd *cobra.Command, args []string) error {
+	var err error
+	log.Logger, _, err = common.CreateLoggerFromFlags(cmd)
 	if err != nil {
 		return err
 	}
-	log.Logger = log.CreateLogger(zapLvl, "")
+
+	log.Logger.Debugw("starting list-plugins command")
+
+	if flagServerAddr == "" {
+		flagServerAddr = fmt.Sprintf("https://localhost:%d", config.DefaultGPUdPort)
+	}
 
 	// Create a context with timeout
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
 	defer cancel()
 
-	// Get the server address from the flag, default to http://localhost:<Default GPUd port>
-	serverAddr := cliContext.String("server")
-	if serverAddr == "" {
-		serverAddr = fmt.Sprintf("https://localhost:%d", config.DefaultGPUdPort)
-	}
-
 	// Get custom plugins
-	plugins, err := clientv1.GetCustomPlugins(ctx, serverAddr)
+	plugins, err := clientv1.GetCustomPlugins(ctx, flagServerAddr)
 	if err != nil {
 		return fmt.Errorf("failed to get custom plugins: %w", err)
 	}

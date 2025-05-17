@@ -1,7 +1,3 @@
-// Copyright (c) Tailscale Inc & AUTHORS
-// SPDX-License-Identifier: BSD-3-Clause
-// This file is based on https://github.com/tailscale/tailscale/blob/012933635b43ac41c8ff4340213bdae9abd6d059/cmd/dist/dist.go
-
 package release
 
 import (
@@ -9,34 +5,62 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/urfave/cli"
+	"github.com/spf13/cobra"
 
+	"github.com/leptonai/gpud/cmd/gpud/common"
+	"github.com/leptonai/gpud/pkg/log"
 	"github.com/leptonai/gpud/pkg/release/distsign"
 )
 
-func CommandVerifyKeySignature(cliContext *cli.Context) error {
-	rootPubPath := cliContext.String("root-pub-path")
-	rootPubBundle, err := os.ReadFile(rootPubPath)
+var cmdVerifyKeySignature = &cobra.Command{
+	Use:   "verify-key-signature",
+	Short: "verify a root signture of the signing keys' bundle",
+	RunE:  cmdVerifyKeySignatureFunc,
+}
+
+var (
+	flagVerifyKeySignatureRootPubPath string
+	flagVerifyKeySignatureSignPubPath string
+	flagVerifyKeySignatureSigPath     string
+)
+
+func init() {
+	cmdVerifyKeySignature.PersistentFlags().StringVar(&flagVerifyKeySignatureRootPubPath, "root-pub-path", "", "path of root public key")
+	cmdVerifyKeySignature.PersistentFlags().StringVar(&flagVerifyKeySignatureSignPubPath, "sign-pub-path", "", "path of signing public key")
+	cmdVerifyKeySignature.PersistentFlags().StringVar(&flagVerifyKeySignatureSigPath, "sig-path", "", "path of signature")
+}
+
+func cmdVerifyKeySignatureFunc(cmd *cobra.Command, args []string) error {
+	var err error
+	log.Logger, _, err = common.CreateLoggerFromFlags(cmd)
+	if err != nil {
+		return err
+	}
+
+	log.Logger.Debugw("starting verify-key-signature command")
+
+	rootPubBundle, err := os.ReadFile(flagVerifyKeySignatureRootPubPath)
 	if err != nil {
 		return err
 	}
 	rootPubs, err := distsign.ParseRootKeyBundle(rootPubBundle)
 	if err != nil {
-		return fmt.Errorf("parsing %q: %w", rootPubPath, err)
+		return fmt.Errorf("parsing %q: %w", flagVerifyKeySignatureRootPubPath, err)
 	}
-	signPubPath := cliContext.String("sign-pub-path")
-	signPubBundle, err := os.ReadFile(signPubPath)
+
+	signPubBundle, err := os.ReadFile(flagVerifyKeySignatureSignPubPath)
 	if err != nil {
 		return err
 	}
-	sigPath := cliContext.String("sig-path")
-	sig, err := os.ReadFile(sigPath)
+	sig, err := os.ReadFile(flagVerifyKeySignatureSigPath)
 	if err != nil {
 		return err
 	}
+
 	if !distsign.VerifyAny(rootPubs, signPubBundle, sig) {
 		return errors.New("signature not valid")
 	}
+
 	fmt.Println("signature ok")
 	return nil
 }

@@ -1,4 +1,5 @@
-package command
+// Package join implements the "join" command.
+package join
 
 import (
 	"bufio"
@@ -14,9 +15,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/urfave/cli"
+	"github.com/spf13/cobra"
 
 	apiv1 "github.com/leptonai/gpud/api/v1"
+	"github.com/leptonai/gpud/cmd/gpud/common"
 	"github.com/leptonai/gpud/pkg/asn"
 	"github.com/leptonai/gpud/pkg/config"
 	gpudstate "github.com/leptonai/gpud/pkg/gpud-state"
@@ -27,13 +29,47 @@ import (
 	"github.com/leptonai/gpud/pkg/sqlite"
 )
 
-func cmdJoin(cliContext *cli.Context) (retErr error) {
-	// Set up logging
-	zapLvl, err := log.ParseLogLevel(logLevel)
+// Command returns the cobra command for the "join" command.
+func Command() *cobra.Command {
+	return cmdRoot
+}
+
+var cmdRoot = &cobra.Command{
+	Use:   "join",
+	Short: "join gpud machine into a lepton cluster",
+	RunE:  cmdRootFunc,
+}
+
+var (
+	flagClusterName     string
+	flagProvider        string
+	flagNodeGroup       string
+	flagExtraInfo       string
+	flagGPUProduct      string
+	flagRegion          string
+	flagSkipInteractive bool
+)
+
+func init() {
+	cmdRoot.PersistentFlags().StringVar(&flagClusterName, "cluster-name", "", "lepton.ai cluster name")
+	cmdRoot.PersistentFlags().MarkDeprecated("cluster-name", "--cluster-name is deprecated")
+
+	cmdRoot.PersistentFlags().StringVar(&flagProvider, "provider", "", "provider of the machine")
+	cmdRoot.PersistentFlags().StringVar(&flagNodeGroup, "node-group", "", "node group of the machine")
+	cmdRoot.PersistentFlags().StringVar(&flagExtraInfo, "extra-info", "", "extra info of the machine")
+	cmdRoot.PersistentFlags().StringVar(&flagGPUProduct, "gpu-product", "unknown", "GPU shape of the machine")
+	cmdRoot.PersistentFlags().StringVar(&flagRegion, "region", "unknown", "region of the machine")
+	cmdRoot.PersistentFlags().BoolVar(&flagSkipInteractive, "skip-interactive", false, "skip interactive mode")
+}
+
+func cmdRootFunc(cmd *cobra.Command, args []string) error {
+	var err error
+	log.Logger, _, err = common.CreateLoggerFromFlags(cmd)
 	if err != nil {
 		return err
 	}
-	log.Logger = log.CreateLogger(zapLvl, logFile)
+
+	log.Logger.Debugw("starting join command")
 
 	stateFile, err := config.DefaultStateFile()
 	if err != nil {
@@ -80,11 +116,6 @@ func cmdJoin(cliContext *cli.Context) (retErr error) {
 		return fmt.Errorf("failed to read public IP: %w", err)
 	}
 
-	clusterName := cliContext.String("cluster-name")
-	provider := cliContext.String("provider")
-	nodeGroup := cliContext.String("node-group")
-	extraInfo := cliContext.String("extra-info")
-
 	_, totalCPU, err := pkgmachineinfo.GetSystemResourceLogicalCores()
 	if err != nil {
 		return fmt.Errorf("failed to get system resource logical cores: %w", err)
@@ -94,21 +125,16 @@ func cmdJoin(cliContext *cli.Context) (retErr error) {
 	if err != nil {
 		return err
 	}
-	productName := nvmlInstance.ProductName()
-	if cliContext.String("gpu-product") != "" {
-		productName = cliContext.String("gpu-product")
+	if flagGPUProduct == "" {
+		flagGPUProduct = nvmlInstance.ProductName()
 	}
 
 	// network section
 	log.Logger.Debugw("measuring latencies to public tailscale DERP nodes to determine region")
-	region := "unknown"
 	latencies, _ := latencyedge.Measure(rootCtx)
 	if len(latencies) > 0 {
 		closest := latencies.Closest()
-		region = closest.RegionCode
-	}
-	if cliContext.String("region") != "" {
-		region = cliContext.String("region")
+		flagRegion = closest.RegionCode
 	}
 
 	detectProvider := "unknown"
@@ -119,17 +145,17 @@ func cmdJoin(cliContext *cli.Context) (retErr error) {
 		detectProvider = asnResult.AsnName
 	}
 
-	if !cliContext.Bool("skip-interactive") {
+	if !flagSkipInteractive {
 		reader := bufio.NewReader(os.Stdin)
 		var input string
-		if productName != "unknown" {
-			fmt.Printf("We detect your gpu type is %v, if this is correct, press Enter. If not, please enter your gpu shape below\n", productName)
+		if flagGPUProduct != "unknown" {
+			fmt.Printf("We detect your gpu type is %v, if this is correct, press Enter. If not, please enter your gpu shape below\n", flagGPUProduct)
 			input, err = reader.ReadString('\n')
 			if err != nil {
 				return err
 			}
 			if input != "\n" {
-				productName = strings.TrimSpace(input)
+				flagGPUProduct = strings.TrimSpace(input)
 			}
 		}
 
@@ -142,30 +168,30 @@ func cmdJoin(cliContext *cli.Context) (retErr error) {
 			publicIP = strings.TrimSpace(input)
 		}
 
-		if provider == "" {
+		if flagProvider == "" {
 			fmt.Printf("Provider name not specified, we detected your provider is %v, if correct, press Enter. If not, please enter your provider's name below\n", detectProvider)
 			input, err = reader.ReadString('\n')
 			if err != nil {
 				return err
 			}
 			if input != "\n" {
-				provider = strings.TrimSpace(input)
+				flagProvider = strings.TrimSpace(input)
 			} else {
-				provider = detectProvider
+				flagProvider = detectProvider
 			}
 		}
 
-		fmt.Printf("We detect your region is %v, if this is correct, press Enter. If not, please enter your region below\n", region)
+		fmt.Printf("We detect your region is %v, if this is correct, press Enter. If not, please enter your region below\n", flagRegion)
 		input, err = reader.ReadString('\n')
 		if err != nil {
 			return err
 		}
 		if input != "\n" {
-			region = strings.TrimSpace(input)
+			flagRegion = strings.TrimSpace(input)
 		}
 	} else {
-		if provider == "" {
-			provider = detectProvider
+		if flagProvider == "" {
+			flagProvider = detectProvider
 		}
 	}
 
@@ -175,14 +201,14 @@ func cmdJoin(cliContext *cli.Context) (retErr error) {
 
 	content := apiv1.JoinRequest{
 		ID:               machineID,
-		ClusterName:      clusterName,
+		ClusterName:      flagClusterName,
 		PublicIP:         publicIP,
-		Provider:         strings.Replace(provider, " ", "-", -1),
-		ProviderGPUShape: productName,
+		Provider:         strings.Replace(flagProvider, " ", "-", -1),
+		ProviderGPUShape: flagGPUProduct,
 		TotalCPU:         totalCPU,
-		NodeGroup:        nodeGroup,
-		ExtraInfo:        extraInfo,
-		Region:           region,
+		NodeGroup:        flagNodeGroup,
+		ExtraInfo:        flagExtraInfo,
+		Region:           flagRegion,
 		PrivateIP:        privateIP,
 	}
 
@@ -191,7 +217,7 @@ func cmdJoin(cliContext *cli.Context) (retErr error) {
 	prettyJSON, _ := json.MarshalIndent(content, "", "  ")
 	fmt.Println(string(prettyJSON))
 
-	if !cliContext.Bool("skip-interactive") {
+	if !flagSkipInteractive {
 		reader := bufio.NewReader(os.Stdin)
 		input, _ := reader.ReadString('\n')
 		if input != "\n" {
@@ -224,16 +250,16 @@ func cmdJoin(cliContext *cli.Context) (retErr error) {
 	if err := gpudstate.SetMetadata(rootCtx, dbRW, gpudstate.MetadataKeyPublicIP, publicIP); err != nil {
 		return fmt.Errorf("failed to record public IP: %w", err)
 	}
-	if err := gpudstate.SetMetadata(rootCtx, dbRW, gpudstate.MetadataKeyProvider, provider); err != nil {
+	if err := gpudstate.SetMetadata(rootCtx, dbRW, gpudstate.MetadataKeyProvider, flagProvider); err != nil {
 		return fmt.Errorf("failed to record provider: %w", err)
 	}
-	if err := gpudstate.SetMetadata(rootCtx, dbRW, gpudstate.MetadataKeyNodeGroup, nodeGroup); err != nil {
+	if err := gpudstate.SetMetadata(rootCtx, dbRW, gpudstate.MetadataKeyNodeGroup, flagNodeGroup); err != nil {
 		return fmt.Errorf("failed to record node group: %w", err)
 	}
-	if err := gpudstate.SetMetadata(rootCtx, dbRW, gpudstate.MetadataKeyRegion, region); err != nil {
+	if err := gpudstate.SetMetadata(rootCtx, dbRW, gpudstate.MetadataKeyRegion, flagRegion); err != nil {
 		return fmt.Errorf("failed to record region: %w", err)
 	}
-	if err := gpudstate.SetMetadata(rootCtx, dbRW, gpudstate.MetadataKeyExtraInfo, extraInfo); err != nil {
+	if err := gpudstate.SetMetadata(rootCtx, dbRW, gpudstate.MetadataKeyExtraInfo, flagExtraInfo); err != nil {
 		return fmt.Errorf("failed to record extra info: %w", err)
 	}
 

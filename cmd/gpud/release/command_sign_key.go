@@ -1,21 +1,44 @@
-// Copyright (c) Tailscale Inc & AUTHORS
-// SPDX-License-Identifier: BSD-3-Clause
-// This file is based on https://github.com/tailscale/tailscale/blob/012933635b43ac41c8ff4340213bdae9abd6d059/cmd/dist/dist.go
-
 package release
 
 import (
 	"fmt"
 	"os"
 
-	"github.com/urfave/cli"
+	"github.com/spf13/cobra"
 
+	"github.com/leptonai/gpud/cmd/gpud/common"
+	"github.com/leptonai/gpud/pkg/log"
 	"github.com/leptonai/gpud/pkg/release/distsign"
 )
 
-func CommandSignKey(cliContext *cli.Context) error {
-	rootPrivPath := cliContext.String("root-priv-path")
-	rkRaw, err := os.ReadFile(rootPrivPath)
+var cmdSignKey = &cobra.Command{
+	Use:   "sign-key",
+	Short: "sign signing keys with a root key",
+	RunE:  cmdSignKeyFunc,
+}
+
+var (
+	flagSignKeyRootPrivPath string
+	flagSignKeySignPubPath  string
+	flagSignKeySigPath      string
+)
+
+func init() {
+	cmdSignKey.PersistentFlags().StringVar(&flagSignKeyRootPrivPath, "root-priv-path", "", "path of root private key")
+	cmdSignKey.PersistentFlags().StringVar(&flagSignKeySignPubPath, "sign-pub-path", "", "path of signing public key")
+	cmdSignKey.PersistentFlags().StringVar(&flagSignKeySigPath, "sig-path", "", "path of signature path")
+}
+
+func cmdSignKeyFunc(cmd *cobra.Command, args []string) error {
+	var err error
+	log.Logger, _, err = common.CreateLoggerFromFlags(cmd)
+	if err != nil {
+		return err
+	}
+
+	log.Logger.Debugw("starting sign-key command")
+
+	rkRaw, err := os.ReadFile(flagSignKeyRootPrivPath)
 	if err != nil {
 		return err
 	}
@@ -24,8 +47,7 @@ func CommandSignKey(cliContext *cli.Context) error {
 		return err
 	}
 
-	signPubPath := cliContext.String("sign-pub-path")
-	bundle, err := os.ReadFile(signPubPath)
+	bundle, err := os.ReadFile(flagSignKeySignPubPath)
 	if err != nil {
 		return err
 	}
@@ -34,10 +56,10 @@ func CommandSignKey(cliContext *cli.Context) error {
 		return err
 	}
 
-	sigPath := cliContext.String("sig-path")
-	if err := os.WriteFile(sigPath, sig, 0400); err != nil {
+	if err := os.WriteFile(flagSignKeySigPath, sig, 0400); err != nil {
 		return fmt.Errorf("failed writing signature file: %w", err)
 	}
-	fmt.Println("wrote signature to", sigPath)
+	fmt.Println("wrote signature to", flagSignKeySigPath)
+
 	return nil
 }

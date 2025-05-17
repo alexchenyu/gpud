@@ -1,17 +1,46 @@
+// Package down implements the "down" command.
 package down
 
 import (
 	"fmt"
 	"os"
 
-	"github.com/urfave/cli"
+	"github.com/spf13/cobra"
 
 	cmdcommon "github.com/leptonai/gpud/cmd/common"
+	"github.com/leptonai/gpud/cmd/gpud/common"
+	"github.com/leptonai/gpud/pkg/log"
 	pkgsystemd "github.com/leptonai/gpud/pkg/systemd"
 	pkgupdate "github.com/leptonai/gpud/pkg/update"
 )
 
-func Command(cliContext *cli.Context) error {
+// Command returns the cobra command for the "down" command.
+func Command() *cobra.Command {
+	return cmdRoot
+}
+
+var cmdRoot = &cobra.Command{
+	Use:   "down",
+	Short: "stop gpud systemd unit",
+	Long: `# to stop the existing gpud systemd unit
+sudo gpud down
+
+# to uninstall gpud
+sudo rm /usr/sbin/gpud
+sudo rm /etc/systemd/system/gpud.service
+`,
+	RunE: cmdRootFunc,
+}
+
+func cmdRootFunc(cmd *cobra.Command, args []string) error {
+	var err error
+	log.Logger, _, err = common.CreateLoggerFromFlags(cmd)
+	if err != nil {
+		return err
+	}
+
+	log.Logger.Debugw("starting down command")
+
 	bin, err := os.Executable()
 	if err != nil {
 		return err
