@@ -62,7 +62,7 @@ type Bucket interface {
 	// Find returns nil if the event is not found.
 	Find(ctx context.Context, ev Event) (*Event, error)
 	// Get queries the event in the descending order of timestamp (latest event first).
-	Get(ctx context.Context, since time.Time) (Events, error)
+	Get(ctx context.Context, since time.Time, opts ...OpOption) (Events, error)
 	// Latest queries the latest event, returns nil if no event found.
 	Latest(ctx context.Context) (*Event, error)
 	Purge(ctx context.Context, beforeTimestamp int64) (int, error)
@@ -70,7 +70,8 @@ type Bucket interface {
 }
 
 type Op struct {
-	disablePurge bool
+	disablePurge        bool
+	eventNamesToExclude map[string]any
 }
 
 type OpOption func(*Op)
@@ -88,5 +89,18 @@ func (op *Op) applyOpts(opts []OpOption) error {
 func WithDisablePurge() OpOption {
 	return func(op *Op) {
 		op.disablePurge = true
+	}
+}
+
+// WithEventNamesToExclude specifies the event names to exclude from the query.
+// This is useful for excluding events from the query.
+func WithEventNamesToExclude(eventNames ...string) OpOption {
+	return func(op *Op) {
+		if op.eventNamesToExclude == nil {
+			op.eventNamesToExclude = make(map[string]any)
+		}
+		for _, eventName := range eventNames {
+			op.eventNamesToExclude[eventName] = true
+		}
 	}
 }

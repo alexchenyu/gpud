@@ -1435,6 +1435,219 @@ func TestCompareEvent(t *testing.T) {
 	}
 }
 
+func TestGetEventsWithExclude(t *testing.T) {
+	t.Parallel()
+
+	testTableName := "test_table"
+
+	dbRW, dbRO, cleanup := sqlite.OpenTestDB(t)
+	defer cleanup()
+
+	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
+	defer cancel()
+
+	store, err := New(dbRW, dbRO, 0)
+	assert.NoError(t, err)
+	bucket, err := store.Bucket(testTableName)
+	assert.NoError(t, err)
+	defer bucket.Close()
+
+	baseTime := time.Now().UTC()
+	events := Events{
+		{
+			Time:    baseTime,
+			Name:    "kmsg",
+			Type:    string(apiv1.EventTypeWarning),
+			Message: "Kernel message",
+		},
+		{
+			Time:    baseTime.Add(1 * time.Second),
+			Name:    "syslog",
+			Type:    string(apiv1.EventTypeInfo),
+			Message: "System log message",
+		},
+		{
+			Time:    baseTime.Add(2 * time.Second),
+			Name:    "nvidia",
+			Type:    string(apiv1.EventTypeCritical),
+			Message: "NVIDIA event",
+		},
+		{
+			Time:    baseTime.Add(3 * time.Second),
+			Name:    "kmsg",
+			Type:    string(apiv1.EventTypeWarning),
+			Message: "Another kernel message",
+		},
+	}
+
+	// Insert all events
+	for _, event := range events {
+		err = bucket.Insert(ctx, event)
+		assert.NoError(t, err)
+	}
+
+	// Test 1: Get all events (no exclusion)
+	allEvents, err := bucket.Get(ctx, baseTime.Add(-1*time.Second))
+	assert.NoError(t, err)
+	assert.Equal(t, 4, len(allEvents))
+
+	// Test 2: Exclude single event name
+	excludedEvents, err := bucket.Get(ctx, baseTime.Add(-1*time.Second), WithEventNamesToExclude("kmsg"))
+	assert.NoError(t, err)
+	assert.Equal(t, 2, len(excludedEvents))
+	// Verify excluded events don't contain "kmsg"
+	for _, event := range excludedEvents {
+		assert.NotEqual(t, "kmsg", event.Name)
+	}
+
+	// Test 3: Exclude multiple event names
+	multipleExcluded, err := bucket.Get(ctx, baseTime.Add(-1*time.Second), WithEventNamesToExclude("kmsg", "syslog"))
+	assert.NoError(t, err)
+	assert.Equal(t, 1, len(multipleExcluded))
+	assert.Equal(t, "nvidia", multipleExcluded[0].Name)
+
+	// Test 4: Exclude all event names
+	allExcluded, err := bucket.Get(ctx, baseTime.Add(-1*time.Second), WithEventNamesToExclude("kmsg", "syslog", "nvidia"))
+	assert.NoError(t, err)
+	assert.Nil(t, allExcluded)
+
+	// Test 5: Exclude non-existent event name
+	nonExistentExcluded, err := bucket.Get(ctx, baseTime.Add(-1*time.Second), WithEventNamesToExclude("nonexistent"))
+	assert.NoError(t, err)
+	assert.Equal(t, 4, len(nonExistentExcluded))
+
+	// Test 6: Test with empty exclusion list
+	emptyExcluded, err := bucket.Get(ctx, baseTime.Add(-1*time.Second), WithEventNamesToExclude())
+	assert.NoError(t, err)
+	assert.Equal(t, 4, len(emptyExcluded))
+}
+
+func TestGetEventsWithExcludeSpecialChars(t *testing.T) {
+	t.Parallel()
+
+	testTableName := "test_table"
+
+	dbRW, dbRO, cleanup := sqlite.OpenTestDB(t)
+	defer cleanup()
+
+	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
+	defer cancel()
+
+	store, err := New(dbRW, dbRO, 0)
+	assert.NoError(t, err)
+	bucket, err := store.Bucket(testTableName)
+	assert.NoError(t, err)
+	defer bucket.Close()
+
+	baseTime := time.Now().UTC()
+	events := Events{
+		{
+			Time:    baseTime,
+			Name:    "event'with'quotes",
+			Type:    string(apiv1.EventTypeWarning),
+			Message: "Event with quotes",
+		},
+		{
+			Time:    baseTime.Add(1 * time.Second),
+			Name:    "event;with;semicolon",
+			Type:    string(apiv1.EventTypeInfo),
+			Message: "Event with semicolon",
+		},
+		{
+			Time:    baseTime.Add(2 * time.Second),
+			Name:    "event,with,comma",
+			Type:    string(apiv1.EventTypeCritical),
+			Message: "Event with comma",
+		},
+		{
+			Time:    baseTime.Add(3 * time.Second),
+			Name:    "normal_event",
+			Type:    string(apiv1.EventTypeWarning),
+			Message: "Normal event",
+		},
+	}
+
+	// Insert all events
+	for _, event := range events {
+		err = bucket.Insert(ctx, event)
+		assert.NoError(t, err)
+	}
+
+	// Test excluding event names with special characters
+	excludedEvents, err := bucket.Get(ctx, baseTime.Add(-1*time.Second), WithEventNamesToExclude("event'with'quotes", "event;with;semicolon"))
+	assert.NoError(t, err)
+	assert.Equal(t, 2, len(excludedEvents))
+	
+	// Verify correct events are excluded
+	for _, event := range excludedEvents {
+		assert.NotEqual(t, "event'with'quotes", event.Name)
+		assert.NotEqual(t, "event;with;semicolon", event.Name)
+	}
+}
+
+func TestGetEventsWithExcludeAndTimeRange(t *testing.T) {
+	t.Parallel()
+
+	testTableName := "test_table"
+
+	dbRW, dbRO, cleanup := sqlite.OpenTestDB(t)
+	defer cleanup()
+
+	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
+	defer cancel()
+
+	store, err := New(dbRW, dbRO, 0)
+	assert.NoError(t, err)
+	bucket, err := store.Bucket(testTableName)
+	assert.NoError(t, err)
+	defer bucket.Close()
+
+	baseTime := time.Now().UTC()
+	events := Events{
+		{
+			Time:    baseTime.Add(-10 * time.Minute),
+			Name:    "old_kmsg",
+			Type:    string(apiv1.EventTypeWarning),
+			Message: "Old kernel message",
+		},
+		{
+			Time:    baseTime.Add(-5 * time.Minute),
+			Name:    "recent_kmsg",
+			Type:    string(apiv1.EventTypeWarning),
+			Message: "Recent kernel message",
+		},
+		{
+			Time:    baseTime,
+			Name:    "current_syslog",
+			Type:    string(apiv1.EventTypeInfo),
+			Message: "Current syslog message",
+		},
+		{
+			Time:    baseTime.Add(1 * time.Second),
+			Name:    "future_kmsg",
+			Type:    string(apiv1.EventTypeWarning),
+			Message: "Future kernel message",
+		},
+	}
+
+	// Insert all events
+	for _, event := range events {
+		err = bucket.Insert(ctx, event)
+		assert.NoError(t, err)
+	}
+
+	// Test combining time range and exclusion
+	recentExcluded, err := bucket.Get(ctx, baseTime.Add(-7*time.Minute), WithEventNamesToExclude("recent_kmsg"))
+	assert.NoError(t, err)
+	assert.Equal(t, 2, len(recentExcluded))
+	
+	// Verify only events after the time range and not excluded are returned
+	for _, event := range recentExcluded {
+		assert.Greater(t, event.Time.Unix(), baseTime.Add(-7*time.Minute).Unix())
+		assert.NotEqual(t, "recent_kmsg", event.Name)
+	}
+}
+
 func TestUnmarshalIfValid(t *testing.T) {
 	t.Parallel()
 
