@@ -1,0 +1,313 @@
+{% extends "base.html" %}
+
+{% block title %}Events Monitor - GPUd Management{% endblock %}
+
+{% block content %}
+<div style="max-width: 1600px; margin: 0 auto;">
+    <h1>📋 GPUd Events Monitor</h1>
+    <div class="subtitle">
+        Real-time SystemD Events per GPUd Component
+        <span id="lastUpdated" class="last-updated"></span>
+        <button onclick="refreshData()" class="refresh-btn" id="refreshBtn">🔄 Refresh</button>
+    </div>
+
+    {% if events_data.error %}
+        <div class="dashboard-grid">
+            <div class="card">
+                <div class="card-title">❌ Connection Error</div>
+                <p class="error-message">Could not fetch events data: {{ events_data.error }}</p>
+                <div style="margin-top: 15px;">
+                    <strong>Troubleshooting:</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Check if GPUd is running on {{ request.host.split(':')[0] }}</li>
+                        <li>Verify /v1/events endpoint is accessible</li>
+                        <li>Check network connectivity</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <!-- Events Overview -->
+        <div class="dashboard-grid" style="margin-bottom: 30px;">
+            <div class="card">
+                <div class="card-title">📊 Events Summary</div>
+                <div id="eventsSummary">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">🔔 Recent Activity</div>
+                <div id="recentActivity">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">⚠️ Critical Events</div>
+                <div id="criticalEvents">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Events Table -->
+        <div class="card" style="margin-bottom: 30px;">
+            <div class="card-title">📋 Event Log</div>
+            <div style="overflow-x: auto;">
+                <table id="eventsTable" style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background-color: #f7fafc; border-bottom: 2px solid #e2e8f0;">
+                            <th style="padding: 12px; text-align: left; font-weight: 600;">Timestamp</th>
+                            <th style="padding: 12px; text-align: left; font-weight: 600;">Component</th>
+                            <th style="padding: 12px; text-align: left; font-weight: 600;">Event Type</th>
+                            <th style="padding: 12px; text-align: left; font-weight: 600;">Message</th>
+                            <th style="padding: 12px; text-align: left; font-weight: 600;">Severity</th>
+                        </tr>
+                    </thead>
+                    <tbody id="eventsTableBody">
+                        <!-- Will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Component-specific Events -->
+        <div style="margin-top: 30px;">
+            <h2 style="text-align: center; color: #2d3748; margin-bottom: 20px;">🔧 Component Events</h2>
+            <div class="dashboard-grid" id="componentEvents">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const eventsData = {{ events_data | tojson }};
+    
+    function updateLastUpdatedTime() {
+        const now = new Date();
+        document.getElementById('lastUpdated').textContent = 
+            `Last updated: ${now.toLocaleTimeString()}`;
+    }
+    
+    function refreshData() {
+        const refreshBtn = document.getElementById('refreshBtn');
+        refreshBtn.disabled = true;
+        refreshBtn.textContent = '🔄 Refreshing...';
+        
+        setTimeout(() => {
+            window.location.reload();
+        }, 500);
+    }
+    
+    function populateEventsSummary() {
+        if (!eventsData || eventsData.error) return;
+        
+        const summaryContainer = document.getElementById('eventsSummary');
+        const totalEvents = Array.isArray(eventsData) ? eventsData.length : 0;
+        
+        // Calculate event statistics
+        const eventStats = {
+            total: totalEvents,
+            critical: 0,
+            warning: 0,
+            info: 0,
+            today: 0
+        };
+        
+        const today = new Date().toISOString().split('T')[0];
+        
+        if (Array.isArray(eventsData)) {
+            eventsData.forEach(event => {
+                // Count by severity (simulated)
+                if (event.message && (event.message.includes('error') || event.message.includes('failed'))) {
+                    eventStats.critical++;
+                } else if (event.message && event.message.includes('warning')) {
+                    eventStats.warning++;
+                } else {
+                    eventStats.info++;
+                }
+                
+                // Count today's events
+                if (event.timestamp && event.timestamp.startsWith(today)) {
+                    eventStats.today++;
+                }
+            });
+        }
+        
+        summaryContainer.innerHTML = `
+            <div class="info-item">
+                <span class="info-label">Total Events</span>
+                <span class="info-value">${eventStats.total}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Today</span>
+                <span class="info-value">${eventStats.today}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Critical</span>
+                <span class="info-value" style="color: #f56565;">${eventStats.critical}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Warnings</span>
+                <span class="info-value" style="color: #ed8936;">${eventStats.warning}</span>
+            </div>
+        `;
+    }
+    
+    function populateRecentActivity() {
+        if (!eventsData || eventsData.error) return;
+        
+        const activityContainer = document.getElementById('recentActivity');
+        const recentEvents = Array.isArray(eventsData) ? eventsData.slice(0, 5) : [];
+        
+        if (recentEvents.length === 0) {
+            activityContainer.innerHTML = '<div style="color: #666; font-style: italic;">No recent events</div>';
+            return;
+        }
+        
+        const activityHtml = recentEvents.map(event => `
+            <div style="margin: 8px 0; padding: 8px; background: #f7fafc; border-radius: 4px;">
+                <div style="font-weight: 500; color: #2d3748;">${event.component || 'Unknown Component'}</div>
+                <div style="font-size: 0.9em; color: #666;">${event.message || 'No message'}</div>
+                <div style="font-size: 0.8em; color: #999;">${formatTimestamp(event.timestamp)}</div>
+            </div>
+        `).join('');
+        
+        activityContainer.innerHTML = activityHtml;
+    }
+    
+    function populateCriticalEvents() {
+        if (!eventsData || eventsData.error) return;
+        
+        const criticalContainer = document.getElementById('criticalEvents');
+        const criticalEvents = Array.isArray(eventsData) ? 
+            eventsData.filter(event => 
+                event.message && (
+                    event.message.includes('error') || 
+                    event.message.includes('failed') || 
+                    event.message.includes('critical')
+                )
+            ) : [];
+        
+        if (criticalEvents.length === 0) {
+            criticalContainer.innerHTML = '<div style="color: #48bb78; font-style: italic;">✅ No critical events</div>';
+            return;
+        }
+        
+        const criticalHtml = criticalEvents.slice(0, 3).map(event => `
+            <div style="margin: 8px 0; padding: 8px; background: #fed7d7; border-radius: 4px; border-left: 4px solid #f56565;">
+                <div style="font-weight: 500; color: #c53030;">${event.component || 'Unknown Component'}</div>
+                <div style="font-size: 0.9em; color: #742a2a;">${event.message || 'No message'}</div>
+            </div>
+        `).join('');
+        
+        criticalContainer.innerHTML = criticalHtml;
+    }
+    
+    function populateEventsTable() {
+        if (!eventsData || eventsData.error) return;
+        
+        const tableBody = document.getElementById('eventsTableBody');
+        const events = Array.isArray(eventsData) ? eventsData.slice(0, 50) : []; // Limit to 50 events
+        
+        if (events.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px; color: #666;">No events data available</td></tr>';
+            return;
+        }
+        
+        const rowsHtml = events.map(event => {
+            const severity = getSeverity(event.message);
+            const severityColor = {
+                'Critical': '#f56565',
+                'Warning': '#ed8936',
+                'Info': '#4299e1'
+            }[severity] || '#666';
+            
+            return `
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                    <td style="padding: 12px; font-size: 0.9em;">${formatTimestamp(event.timestamp)}</td>
+                    <td style="padding: 12px; font-weight: 500;">${event.component || 'Unknown'}</td>
+                    <td style="padding: 12px;">${event.type || 'Event'}</td>
+                    <td style="padding: 12px; max-width: 300px; word-wrap: break-word;">${event.message || 'No message'}</td>
+                    <td style="padding: 12px;">
+                        <span style="color: ${severityColor}; font-weight: 500;">${severity}</span>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+        
+        tableBody.innerHTML = rowsHtml;
+    }
+    
+    function getSeverity(message) {
+        if (!message) return 'Info';
+        const msg = message.toLowerCase();
+        if (msg.includes('error') || msg.includes('failed') || msg.includes('critical')) {
+            return 'Critical';
+        } else if (msg.includes('warning') || msg.includes('warn')) {
+            return 'Warning';
+        }
+        return 'Info';
+    }
+    
+    function formatTimestamp(timestamp) {
+        if (!timestamp) return 'Unknown time';
+        const date = new Date(timestamp);
+        return date.toLocaleString();
+    }
+    
+    function populateComponentEvents() {
+        if (!eventsData || eventsData.error) return;
+        
+        const componentContainer = document.getElementById('componentEvents');
+        const componentGroups = {};
+        
+        // Group events by component
+        if (Array.isArray(eventsData)) {
+            eventsData.forEach(event => {
+                const component = event.component || 'Unknown';
+                if (!componentGroups[component]) {
+                    componentGroups[component] = [];
+                }
+                componentGroups[component].push(event);
+            });
+        }
+        
+        const componentsHtml = Object.entries(componentGroups).map(([component, events]) => `
+            <div class="card">
+                <div class="card-title">${component}</div>
+                <div class="info-item">
+                    <span class="info-label">Events Count</span>
+                    <span class="info-value">${events.length}</span>
+                </div>
+                <div style="margin-top: 10px;">
+                    ${events.slice(0, 3).map(event => `
+                        <div style="margin: 5px 0; padding: 6px; background: #f7fafc; border-radius: 3px; font-size: 0.85em;">
+                            ${event.message || 'No message'}
+                        </div>
+                    `).join('')}
+                    ${events.length > 3 ? `<div style="color: #666; font-size: 0.8em;">... and ${events.length - 3} more</div>` : ''}
+                </div>
+            </div>
+        `).join('');
+        
+        componentContainer.innerHTML = componentsHtml || '<div class="card"><div class="card-title">No component events found</div></div>';
+    }
+    
+    function initEventsPage() {
+        populateEventsSummary();
+        populateRecentActivity();
+        populateCriticalEvents();
+        populateEventsTable();
+        populateComponentEvents();
+        updateLastUpdatedTime();
+    }
+    
+    // Initialize when page loads
+    document.addEventListener('DOMContentLoaded', initEventsPage);
+</script>
+{% endblock %} 

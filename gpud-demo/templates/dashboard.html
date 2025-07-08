@@ -1,0 +1,456 @@
+{% extends "base.html" %}
+
+{% block title %}Enterprise Dashboard - GPUd Management{% endblock %}
+
+{% block content %}
+<h1>🚀 GPUd Enterprise Dashboard</h1>
+<div class="subtitle">
+    Addressing Large-Scale GPU Management Challenges (Meta Llama 3 Research)
+    <span id="lastUpdated" class="last-updated"></span>
+    <button onclick="refreshData()" class="refresh-btn" id="refreshBtn">🔄 Refresh</button>
+</div>
+
+{% if gpud_data.error %}
+    <div class="dashboard-grid">
+        <p class="error-message">Could not fetch data. Error: {{ gpud_data.error }}</p>
+    </div>
+{% else %}
+    <!-- 🚨 Enterprise Alert Banner -->
+    {% if gpud_data.enterprise_insights and gpud_data.enterprise_insights.error_detection.alerts %}
+    <div class="alert-banner">
+        🚨 <strong>Active Alerts:</strong> 
+        {% for alert in gpud_data.enterprise_insights.error_detection.alerts[:2] %}
+            {{ alert.message }}{% if not loop.last %} | {% endif %}
+        {% endfor %}
+        {% if gpud_data.enterprise_insights.error_detection.alerts|length > 2 %}
+            | +{{ gpud_data.enterprise_insights.error_detection.alerts|length - 2 }} more
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- 🏢 Enterprise Features Dashboard -->
+    {% if gpud_data.enterprise_insights %}
+    <div style="margin-bottom: 30px;">
+        <h2 style="text-align: center; color: #2d3748; margin-bottom: 20px;">
+            🏢 Enterprise GPU Management - Meta's Challenges Solved
+        </h2>
+        
+        <div class="enterprise-grid">
+            <!-- 1. Automated Error Detection -->
+            <div class="diagnostic-panel {% if gpud_data.enterprise_insights.error_detection.alerts %}critical{% elif gpud_data.enterprise_insights.error_detection.preventive_warnings %}warning{% else %}healthy{% endif %}">
+                <div class="diagnostic-header">
+                    <div class="diagnostic-icon {% if gpud_data.enterprise_insights.error_detection.alerts %}icon-critical{% elif gpud_data.enterprise_insights.error_detection.preventive_warnings %}icon-warning{% else %}icon-healthy{% endif %}">
+                        🤖
+                    </div>
+                    <h3>Automated Error Detection</h3>
+                </div>
+                <p><strong>Challenge Solved:</strong> Reduces reliance on experienced technicians</p>
+                
+                {% if gpud_data.enterprise_insights.error_detection.alerts %}
+                <div style="margin: 10px 0;">
+                    <strong>Critical Alerts:</strong>
+                    {% for alert in gpud_data.enterprise_insights.error_detection.alerts %}
+                    <div style="margin: 5px 0; padding: 8px; background: #fed7d7; border-radius: 4px; font-size: 0.9em;">
+                        {{ alert.message }} - <em>{{ alert.auto_action }}</em>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                {% if gpud_data.enterprise_insights.error_detection.preventive_warnings %}
+                <div style="margin: 10px 0;">
+                    <strong>Preventive Warnings:</strong>
+                    {% for warning in gpud_data.enterprise_insights.error_detection.preventive_warnings %}
+                    <div style="margin: 5px 0; padding: 8px; background: #fef5e7; border-radius: 4px; font-size: 0.9em;">
+                        {{ warning.message }} - <span style="color: #22543d;">{{ warning.auto_fix }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                {% if gpud_data.enterprise_insights.error_detection.system_anomalies %}
+                <div style="margin: 10px 0;">
+                    <strong>System Optimization:</strong>
+                    {% for anomaly in gpud_data.enterprise_insights.error_detection.system_anomalies %}
+                    <div style="margin: 5px 0; padding: 8px; background: #e6fffa; border-radius: 4px; font-size: 0.9em;">
+                        {{ anomaly.message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- 2. Efficient Diagnostics -->
+            <div class="diagnostic-panel healthy">
+                <div class="diagnostic-header">
+                    <div class="diagnostic-icon icon-info">🔍</div>
+                    <h3>Efficient Diagnostics</h3>
+                </div>
+                <p><strong>Challenge Solved:</strong> Clear distinction between error types</p>
+                
+                <div class="error-classification">
+                    {% for error in gpud_data.enterprise_insights.diagnostic_classification.software_errors %}
+                    <div class="error-tag error-software">Software: {{ error.component }}</div>
+                    {% endfor %}
+                    {% for error in gpud_data.enterprise_insights.diagnostic_classification.hardware_errors %}
+                    <div class="error-tag error-hardware">Hardware: {{ error.component }}</div>
+                    {% endfor %}
+                    {% for error in gpud_data.enterprise_insights.diagnostic_classification.performance_impacts %}
+                    <div class="error-tag error-performance">Performance: {{ error.component }}</div>
+                    {% endfor %}
+                </div>
+                
+                {% if gpud_data.enterprise_insights.diagnostic_classification.software_errors %}
+                <div style="margin-top: 10px; font-size: 0.85em; color: #666;">
+                    <strong>Software Issues (Fixable by reboot):</strong> {{ gpud_data.enterprise_insights.diagnostic_classification.software_errors|length }}
+                </div>
+                {% endif %}
+                {% if gpud_data.enterprise_insights.diagnostic_classification.hardware_errors %}
+                <div style="font-size: 0.85em; color: #666;">
+                    <strong>Hardware Issues (Component replacement):</strong> {{ gpud_data.enterprise_insights.diagnostic_classification.hardware_errors|length }}
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- 3. Automated Verification -->
+            <div class="diagnostic-panel healthy">
+                <div class="diagnostic-header">
+                    <div class="diagnostic-icon icon-healthy">✅</div>
+                    <h3>Automated Verification</h3>
+                </div>
+                <p><strong>Challenge Solved:</strong> Post-hardware change verification</p>
+                
+                <div class="verification-timeline">
+                    {% for item in gpud_data.enterprise_insights.verification_timeline %}
+                    <div class="timeline-item">
+                        <div class="timeline-dot timeline-{{ item.status }}"></div>
+                        {{ item.step }} <span style="color: #666; font-size: 0.8em;">({{ item.time }})</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="automation-status automation-active">
+                    🤖 {{ gpud_data.enterprise_insights.automation_status.active_workflows }} workflows active
+                </div>
+                {% if gpud_data.enterprise_insights.automation_status.pending_verifications > 0 %}
+                <div class="automation-status automation-pending">
+                    ⏳ {{ gpud_data.enterprise_insights.automation_status.pending_verifications }} verifications pending
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- 4. Comprehensive Monitoring & Workload Efficiency -->
+            <div class="diagnostic-panel {% if gpud_data.enterprise_insights.workload_efficiency.overall_score >= 80 %}healthy{% elif gpud_data.enterprise_insights.workload_efficiency.overall_score >= 60 %}warning{% else %}critical{% endif %}">
+                <div class="diagnostic-header">
+                    <div class="diagnostic-icon {% if gpud_data.enterprise_insights.workload_efficiency.overall_score >= 80 %}icon-healthy{% elif gpud_data.enterprise_insights.workload_efficiency.overall_score >= 60 %}icon-warning{% else %}icon-critical{% endif %}">📊</div>
+                    <h3>AI/ML Workload Management</h3>
+                </div>
+                <p><strong>Challenge Solved:</strong> GPU efficiency & reliability monitoring</p>
+                
+                <div class="info-item">
+                    <span class="info-label">Overall Efficiency</span>
+                    <span class="efficiency-score {% if gpud_data.enterprise_insights.workload_efficiency.overall_score >= 80 %}efficiency-excellent{% elif gpud_data.enterprise_insights.workload_efficiency.overall_score >= 60 %}efficiency-good{% else %}efficiency-poor{% endif %}">
+                        {{ gpud_data.enterprise_insights.workload_efficiency.overall_score }}%
+                    </span>
+                </div>
+                
+                <div class="workload-info">
+                    <div>GPU Utilization: {{ gpud_data.enterprise_insights.workload_efficiency.gpu_utilization_efficiency|round(1) }}%</div>
+                    <div>Memory Efficiency: {{ gpud_data.enterprise_insights.workload_efficiency.memory_efficiency|round(1) }}%</div>
+                    <div>Power Efficiency: {{ gpud_data.enterprise_insights.workload_efficiency.power_efficiency|round(1) }}%</div>
+                </div>
+            </div>
+
+            <!-- 5. Data Collection for Analysis -->
+            <div class="diagnostic-panel healthy">
+                <div class="diagnostic-header">
+                    <div class="diagnostic-icon icon-info">📈</div>
+                    <h3>Data Collection & Analysis</h3>
+                </div>
+                <p><strong>Challenge Solved:</strong> Offline analysis & complex calculations</p>
+                
+                <div class="data-collection-stats">
+                    <div class="collection-stat">
+                        <div class="stat-number">{{ gpud_data.enterprise_insights.data_collection_stats.metrics_collected_24h }}</div>
+                        <div class="stat-label">Metrics/24h</div>
+                    </div>
+                    <div class="collection-stat">
+                        <div class="stat-number">{{ gpud_data.enterprise_insights.data_collection_stats.offline_analysis_ready }}</div>
+                        <div class="stat-label">Reports Ready</div>
+                    </div>
+                    <div class="collection-stat">
+                        <div class="stat-number">{{ gpud_data.enterprise_insights.data_collection_stats.trend_analysis_available }}</div>
+                        <div class="stat-label">Days Trend</div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                    ✅ Weekly/monthly reports enabled<br>
+                    ✅ Real-time + offline analysis pipeline<br>
+                    ✅ Complex calculations offloaded
+                </div>
+            </div>
+
+            <!-- 6. Modular Design Showcase -->
+            <div class="diagnostic-panel healthy">
+                <div class="diagnostic-header">
+                    <div class="diagnostic-icon icon-healthy">🧩</div>
+                    <h3>Modular Architecture</h3>
+                </div>
+                <p><strong>Challenge Solved:</strong> Reusable components across infrastructures</p>
+                
+                <div style="font-size: 0.9em;">
+                    <div>🔧 <strong>Active Modules:</strong></div>
+                    <div style="margin-left: 15px; color: #666;">
+                        • NVIDIA Accelerator Monitoring<br>
+                        • Thermal Management<br>
+                        • Memory Management<br>
+                        • Power Optimization<br>
+                        • NVLink Health Check<br>
+                        • ECC Error Detection<br>
+                        • Process Monitoring<br>
+                        • Clock Speed Control
+                    </div>
+                    
+                    <div style="margin-top: 10px;">
+                        <div class="automation-status automation-active">
+                            🔄 All modules independently deployable
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Quick Overview Cards -->
+    <div class="dashboard-grid">
+        <!-- System Overview -->
+        <div class="card system-overview">
+            <div class="card-title">🖥️ System Overview</div>
+            <div class="grid">
+                <div>
+                    <div class="info-item">
+                        <span class="info-label">Hostname</span>
+                        <span class="info-value">{{ gpud_data.hostname }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">OS</span>
+                        <span class="info-value">{{ gpud_data.osImage }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">GPUD Version</span>
+                        <span class="info-value">{{ gpud_data.gpudVersion }}</span>
+                    </div>
+                    {% if gpud_data.system_resources and gpud_data.system_resources.os %}
+                    <div class="info-item">
+                        <span class="info-label">Uptime</span>
+                        <span class="info-value">{{ gpud_data.system_resources.os.uptime_formatted }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+                <div>
+                    <div class="info-item">
+                        <span class="info-label">GPU Product</span>
+                        <span class="info-value">{{ gpud_data.gpuInfo.product }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">GPU Count</span>
+                        <span class="info-value">{{ gpud_data.gpuInfo.gpus|length }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">GPU Memory</span>
+                        <span class="info-value">{{ "%.0f"|format(gpud_data.gpuInfo.memory|int / 1024 / 1024 / 1024) }} GB each</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Total Memory</span>
+                        <span class="info-value">{{ "%.0f"|format(gpud_data.memoryInfo.totalBytes / 1024 / 1024 / 1024) }} GB</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Health Status -->
+        <div class="card">
+            <div class="card-title">🏥 Component Health</div>
+            <div class="health-status" id="healthStatus">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- System Resources -->
+        <div class="card">
+            <div class="card-title">📊 System Resources</div>
+            <div id="systemResources">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- GPU Monitoring Grid -->
+    {% if gpud_data.gpuInfo and gpud_data.gpuInfo.gpus %}
+    <div style="margin-top: 30px;">
+        <h2 style="text-align: center; color: #2d3748; margin-bottom: 20px;">🎮 GPU Fleet Monitoring</h2>
+        <div class="gpu-grid">
+            {% for gpu in gpud_data.gpuInfo.gpus %}
+            <div class="gpu-card">
+                <div class="card-title">
+                    GPU {{ gpu.minorID or loop.index0 }} ({{ gpu.uuid[-12:] }})
+                    {% if gpu.current_celsius_gpu_core and gpu.current_celsius_gpu_core > 80 %}
+                    <span style="color: #f56565; margin-left: 10px;">🔥 HOT</span>
+                    {% endif %}
+                    {% if gpu.used_percent and (gpu.used_percent|replace('%',''))|float > 95 %}
+                    <span style="color: #ed8936; margin-left: 10px;">⚠️ MEM</span>
+                    {% endif %}
+                </div>
+                
+                <!-- GPU Metrics -->
+                <div class="metric-row">
+                    <span>Utilization:</span>
+                    <span><strong>{{ gpu.gpu_used_percent or 0 }}%</strong></span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill progress-low" style="width: {{ gpu.gpu_used_percent or 0 }}%;"></div>
+                </div>
+
+                <div class="metric-row">
+                    <span>Memory:</span>
+                    <span><strong>{{ gpu.used_humanized or 'N/A' }} / {{ gpu.total_humanized or 'N/A' }}</strong></span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill progress-medium" style="width: {{ (gpu.used_percent or '0')|replace('%','')|float }}%;"></div>
+                </div>
+
+                <div class="metric-row">
+                    <span>Temperature:</span>
+                    <span><strong>{{ gpu.current_celsius_gpu_core or 'N/A' }}°C</strong></span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill progress-low" style="width: {{ gpu.current_celsius_gpu_core or 0 }}%;"></div>
+                </div>
+
+                <div class="metric-row">
+                    <span>Power:</span>
+                    <span><strong>{{ (gpu.usage_milli_watts / 1000)|round(1) if gpu.usage_milli_watts else 'N/A' }}W</strong></span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill progress-medium" style="width: {{ ((gpu.usage_milli_watts or 0) / (gpu.enforced_limit_milli_watts or 1) * 100)|round(1) }}%;"></div>
+                </div>
+
+                <!-- Running Processes -->
+                {% if gpu.processes and gpu.processes|length > 0 %}
+                <div style="margin-top: 15px; font-size: 0.85em;">
+                    <strong>Active Processes ({{ gpu.processes|length }}):</strong>
+                    {% for process in gpu.processes[:2] %}
+                    <div style="margin: 2px 0; color: #666;">
+                        PID {{ process.pid }}: {{ (process.gpu_used_memory_bytes_humanized or '0 MB') }}
+                    </div>
+                    {% endfor %}
+                    {% if gpu.processes|length > 2 %}
+                    <div style="color: #666;">... +{{ gpu.processes|length - 2 }} more</div>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const gpudData = {{ gpud_data | tojson }};
+    
+    // Function to update last updated time
+    function updateLastUpdatedTime() {
+        const now = new Date();
+        document.getElementById('lastUpdated').textContent = 
+            `Last updated: ${now.toLocaleTimeString()}`;
+    }
+    
+    // Function to refresh data
+    function refreshData() {
+        const refreshBtn = document.getElementById('refreshBtn');
+        refreshBtn.disabled = true;
+        refreshBtn.textContent = '🔄 Refreshing...';
+        
+        setTimeout(() => {
+            window.location.reload();
+        }, 500);
+    }
+    
+    // Function to populate health status
+    function populateHealthStatus() {
+        const healthContainer = document.getElementById('healthStatus');
+        if (!healthContainer) return;
+        
+        const healthItems = gpudData.health_status || [];
+        
+        healthItems.forEach(item => {
+            const div = document.createElement('div');
+            const statusClass = item.status === 'Healthy' ? 'healthy' : 
+                               item.status === 'Unhealthy' ? 'unhealthy' : 'unknown';
+            const dotClass = item.status === 'Healthy' ? 'dot-healthy' : 
+                            item.status === 'Unhealthy' ? 'dot-unhealthy' : 'dot-unknown';
+            
+            div.className = `health-item health-${statusClass}`;
+            div.innerHTML = `<div class="health-dot ${dotClass}"></div>${item.name}`;
+            div.title = item.reason;
+            healthContainer.appendChild(div);
+        });
+    }
+    
+    // Function to populate system resources
+    function populateSystemResources() {
+        const resourcesContainer = document.getElementById('systemResources');
+        if (!resourcesContainer) return;
+        
+        const resources = gpudData.system_resources || {};
+        let html = '';
+        
+        // CPU Usage
+        if (resources.cpu) {
+            const cpuUsage = resources.cpu.used_percent;
+            html += `
+                <div class="info-item">
+                    <span class="info-label">CPU Usage (${resources.cpu.cores} cores)</span>
+                    <span class="info-value">${cpuUsage.toFixed(2)}%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill progress-${cpuUsage < 30 ? 'low' : (cpuUsage < 70 ? 'medium' : 'high')}" style="width: ${cpuUsage}%;"></div>
+                </div>
+            `;
+        }
+        
+        // Memory Usage
+        if (resources.memory) {
+            const memUsage = resources.memory.used_percent;
+            const totalGB = (resources.memory.total_bytes / 1024 / 1024 / 1024).toFixed(0);
+            const usedGB = (resources.memory.used_bytes / 1024 / 1024 / 1024).toFixed(1);
+            html += `
+                <div class="info-item">
+                    <span class="info-label">Memory (${totalGB} GB total)</span>
+                    <span class="info-value">${usedGB} GB used (${memUsage}%)</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill progress-${memUsage < 70 ? 'low' : (memUsage < 90 ? 'medium' : 'high')}" style="width: ${memUsage}%;"></div>
+                </div>
+            `;
+        }
+        
+        resourcesContainer.innerHTML = html;
+    }
+    
+    // Initialize dashboard
+    function initDashboard() {
+        populateHealthStatus();
+        populateSystemResources();
+        updateLastUpdatedTime();
+    }
+    
+    // Initialize when page loads
+    document.addEventListener('DOMContentLoaded', initDashboard);
+</script>
+{% endblock %}

@@ -1,0 +1,208 @@
+{
+  "gpudVersion": "v0.5.0",
+  "gpuDriverVersion": "565.57.01",
+  "cudaVersion": "12.7",
+  "containerRuntimeVersion": "containerd://1.7.27",
+  "kernelVersion": "6.8.0-60-generic",
+  "osImage": "Ubuntu 24.04.2 LTS",
+  "operatingSystem": "linux",
+  "systemUUID": "4700d600-8d19-11ee-8000-7cc255867814",
+  "machineID": "7f714e3e5ba94b10ad835b93091c0500",
+  "bootID": "40cee1cc-7425-42df-93a1-5ab6ad4a4f52",
+  "hostname": "dawn",
+  "uptime": "2025-05-30T22:52:22Z",
+  "cpuInfo": {
+    "type": "Intel(R) Xeon(R) Platinum 8462Y+",
+    "manufacturer": "GenuineIntel",
+    "architecture": "amd64",
+    "logicalCores": 128
+  },
+  "memoryInfo": {
+    "totalBytes": 2164174151680
+  },
+  "gpuInfo": {
+    "product": "NVIDIA-H100-80GB-HBM3",
+    "manufacturer": "NVIDIA",
+    "architecture": "hopper",
+    "memory": "85520809984",
+    "gpus": [
+      {
+        "uuid": "GPU-ac23289f-8b6b-32b7-2fa1-e76baaf2da4c",
+        "sn": "1650824026434",
+        "minorID": "7",
+        "boardID": 58368,
+        "busID": "0000:e4:00.0"
+      },
+      {
+        "uuid": "GPU-b707351a-d2bf-8d8a-25a1-13b057ce8bd2",
+        "sn": "1651024053716",
+        "minorID": "0",
+        "boardID": 6400,
+        "busID": "0000:19:00.0"
+      },
+      {
+        "uuid": "GPU-9c8ab3cd-57c5-c2d2-425f-cbfd2049afa8",
+        "sn": "1650524042516",
+        "minorID": "1",
+        "boardID": 11520,
+        "busID": "0000:2d:00.0"
+      },
+      {
+        "uuid": "GPU-eaf8cdef-4ac5-8a00-abfa-89f7d6ddb848",
+        "sn": "1650924016163",
+        "minorID": "2",
+        "boardID": 16128,
+        "busID": "0000:3f:00.0"
+      },
+      {
+        "uuid": "GPU-e40241fa-ebb5-3c5b-3990-657a500956b8",
+        "sn": "1650824028051",
+        "minorID": "3",
+        "boardID": 26112,
+        "busID": "0000:66:00.0"
+      },
+      {
+        "uuid": "GPU-c749f1ac-21c2-db47-b327-9c75f5e89a8c",
+        "sn": "1650824024989",
+        "minorID": "4",
+        "boardID": 39680,
+        "busID": "0000:9b:00.0"
+      },
+      {
+        "uuid": "GPU-20d8ff57-875c-65aa-285c-8feff4278a26",
+        "sn": "1650824028341",
+        "minorID": "5",
+        "boardID": 44544,
+        "busID": "0000:ae:00.0"
+      },
+      {
+        "uuid": "GPU-1219bf90-9c87-865f-28d6-3ec2c4accf2b",
+        "sn": "1650924077288",
+        "minorID": "6",
+        "boardID": 48896,
+        "busID": "0000:bf:00.0"
+      }
+    ]
+  },
+  "diskInfo": {
+    "blockDevices": [
+      {
+        "name": "/dev/mapper/ubuntu--vg-home",
+        "type": "lvm",
+        "size": 7570848743424,
+        "used": 1941939138560,
+        "mountPoint": "/home",
+        "fsType": "ext4",
+        "parents": [
+          "/dev/nvme0n1p3"
+        ]
+      },
+      {
+        "name": "/dev/mapper/ubuntu--vg-ubuntu--lv",
+        "type": "lvm",
+        "size": 107374182400,
+        "used": 94484824064,
+        "mountPoint": "/",
+        "fsType": "ext4",
+        "parents": [
+          "/dev/nvme0n1p3"
+        ]
+      },
+      {
+        "name": "/dev/nvme0n1",
+        "type": "disk",
+        "size": 7681501126656,
+        "serial": "S6CKNC0W600403",
+        "wwn": "eui.36434b30576004030025384300000001",
+        "model": "SAMSUNG MZQL27T6HBLA-00A07",
+        "rev": "GDC5A02Q",
+        "children": [
+          "/dev/nvme0n1p2",
+          "/dev/nvme0n1p3"
+        ]
+      },
+      {
+        "name": "/dev/nvme0n1p2",
+        "type": "part",
+        "size": 2147483648,
+        "used": 202272768,
+        "wwn": "eui.36434b30576004030025384300000001",
+        "mountPoint": "/boot",
+        "fsType": "ext4",
+        "partUUID": "dd7c739e-2d6b-4b07-91c5-0535a54e86e9",
+        "parents": [
+          "/dev/nvme0n1"
+        ]
+      },
+      {
+        "name": "/dev/nvme0n1p3",
+        "type": "part",
+        "size": 7678223974400,
+        "wwn": "eui.36434b30576004030025384300000001",
+        "fsType": "LVM2_member",
+        "partUUID": "981dbaf6-a9f6-45f9-bf9e-fc62bafff4bb",
+        "parents": [
+          "/dev/nvme0n1"
+        ],
+        "children": [
+          "/dev/mapper/ubuntu--vg-ubuntu--lv",
+          "/dev/mapper/ubuntu--vg-home"
+        ]
+      },
+      {
+        "name": "/dev/nvme1n1",
+        "type": "disk",
+        "serial": "S4BGNY0N803378",
+        "wwn": "eui.344247304e8033780025385900000001",
+        "model": "SAMSUNG MZQLB7T6HMLA-00007",
+        "rev": "EDB5202Q",
+        "children": [
+          "/dev/nvme1n1p1"
+        ]
+      },
+      {
+        "name": "/dev/nvme1n1p1",
+        "type": "part",
+        "size": 7681500061184,
+        "wwn": "eui.344247304e8033780025385900000001",
+        "parents": [
+          "/dev/nvme1n1"
+        ]
+      },
+      {
+        "name": "/dev/nvme2n1",
+        "type": "disk",
+        "serial": "S4BGNY0N803396",
+        "wwn": "eui.344247304e8033960025385900000001",
+        "model": "SAMSUNG MZQLB7T6HMLA-00007",
+        "rev": "EDB5202Q",
+        "children": [
+          "/dev/nvme2n1p1"
+        ]
+      },
+      {
+        "name": "/dev/nvme2n1p1",
+        "type": "part",
+        "size": 7681499725824,
+        "wwn": "eui.344247304e8033960025385900000001",
+        "parents": [
+          "/dev/nvme2n1"
+        ]
+      }
+    ]
+  },
+  "nicInfo": {
+    "privateIPInterfaces": [
+      {
+        "interface": "enp220s0f1",
+        "mac": "7c:c2:55:79:6b:03",
+        "ip": "172.31.53.219"
+      },
+      {
+        "interface": "enxbe3af2b6059f",
+        "mac": "be:3a:f2:b6:05:9f",
+        "ip": "fe80::bc3a:f2ff:feb6:59f"
+      }
+    ]
+  }
+}

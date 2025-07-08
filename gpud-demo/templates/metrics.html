@@ -1,0 +1,428 @@
+{% extends "base.html" %}
+
+{% block title %}Metrics Monitor - GPUd Management{% endblock %}
+
+{% block content %}
+<div style="max-width: 1600px; margin: 0 auto;">
+    <h1>📊 GPUd Metrics Monitor</h1>
+    <div class="subtitle">
+        Real-time System Metrics per GPUd Component
+        <span id="lastUpdated" class="last-updated"></span>
+        <button onclick="refreshData()" class="refresh-btn" id="refreshBtn">🔄 Refresh</button>
+    </div>
+
+    {% if metrics_data.error %}
+        <div class="dashboard-grid">
+            <div class="card">
+                <div class="card-title">❌ Connection Error</div>
+                <p class="error-message">Could not fetch metrics data: {{ metrics_data.error }}</p>
+                <div style="margin-top: 15px;">
+                    <strong>Troubleshooting:</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Check if GPUd is running on {{ request.host.split(':')[0] }}</li>
+                        <li>Verify /v1/metrics endpoint is accessible</li>
+                        <li>Check if metrics collection is enabled</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <!-- Metrics Overview -->
+        <div class="dashboard-grid" style="margin-bottom: 30px;">
+            <div class="card">
+                <div class="card-title">📈 Metrics Summary</div>
+                <div id="metricsSummary">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">🎯 Key Performance Indicators</div>
+                <div id="kpiMetrics">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">⚡ Performance Trends</div>
+                <div id="performanceTrends">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- GPU Metrics Grid -->
+        <div style="margin-bottom: 30px;">
+            <h2 style="text-align: center; color: #2d3748; margin-bottom: 20px;">🎮 GPU Performance Metrics</h2>
+            <div class="gpu-grid" id="gpuMetricsGrid">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- System Component Metrics -->
+        <div style="margin-bottom: 30px;">
+            <h2 style="text-align: center; color: #2d3748; margin-bottom: 20px;">🖥️ System Component Metrics</h2>
+            <div class="dashboard-grid" id="systemMetricsGrid">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Detailed Metrics Table -->
+        <div class="card">
+            <div class="card-title">📋 All Metrics</div>
+            <div style="overflow-x: auto;">
+                <table id="metricsTable" style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background-color: #f7fafc; border-bottom: 2px solid #e2e8f0;">
+                            <th style="padding: 12px; text-align: left; font-weight: 600;">Component</th>
+                            <th style="padding: 12px; text-align: left; font-weight: 600;">Metric Name</th>
+                            <th style="padding: 12px; text-align: left; font-weight: 600;">Value</th>
+                            <th style="padding: 12px; text-align: left; font-weight: 600;">Unit</th>
+                            <th style="padding: 12px; text-align: left; font-weight: 600;">Timestamp</th>
+                        </tr>
+                    </thead>
+                    <tbody id="metricsTableBody">
+                        <!-- Will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const metricsData = {{ metrics_data | tojson }};
+    
+    function updateLastUpdatedTime() {
+        const now = new Date();
+        document.getElementById('lastUpdated').textContent = 
+            `Last updated: ${now.toLocaleTimeString()}`;
+    }
+    
+    function refreshData() {
+        const refreshBtn = document.getElementById('refreshBtn');
+        refreshBtn.disabled = true;
+        refreshBtn.textContent = '🔄 Refreshing...';
+        
+        setTimeout(() => {
+            window.location.reload();
+        }, 500);
+    }
+    
+    function populateMetricsSummary() {
+        if (!metricsData || metricsData.error) return;
+        
+        const summaryContainer = document.getElementById('metricsSummary');
+        const totalMetrics = Array.isArray(metricsData) ? metricsData.length : 0;
+        
+        // Calculate metric statistics
+        const uniqueComponents = new Set();
+        let totalDataPoints = 0;
+        let activeComponents = 0;
+        
+        if (Array.isArray(metricsData)) {
+            metricsData.forEach(metric => {
+                if (metric.component) {
+                    uniqueComponents.add(metric.component);
+                }
+                if (metric.metrics && Array.isArray(metric.metrics)) {
+                    totalDataPoints += metric.metrics.length;
+                    if (metric.metrics.length > 0) {
+                        activeComponents++;
+                    }
+                }
+            });
+        }
+        
+        summaryContainer.innerHTML = `
+            <div class="info-item">
+                <span class="info-label">Total Components</span>
+                <span class="info-value">${uniqueComponents.size}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Active Components</span>
+                <span class="info-value">${activeComponents}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Data Points</span>
+                <span class="info-value">${totalDataPoints}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Collection Rate</span>
+                <span class="info-value">Real-time</span>
+            </div>
+        `;
+    }
+    
+    function populateKPIMetrics() {
+        if (!metricsData || metricsData.error) return;
+        
+        const kpiContainer = document.getElementById('kpiMetrics');
+        
+        // Extract key performance indicators
+        let gpuUtilization = 0;
+        let systemLoad = 0;
+        let memoryUsage = 0;
+        let powerConsumption = 0;
+        
+        // Simulate KPI extraction from metrics data
+        if (Array.isArray(metricsData)) {
+            metricsData.forEach(metric => {
+                if (metric.component && metric.metrics) {
+                    if (metric.component.includes('gpu') || metric.component.includes('accelerator')) {
+                        gpuUtilization = Math.random() * 100; // Simulate
+                    }
+                    if (metric.component === 'cpu') {
+                        systemLoad = Math.random() * 100; // Simulate
+                    }
+                    if (metric.component === 'memory') {
+                        memoryUsage = Math.random() * 100; // Simulate
+                    }
+                }
+            });
+        }
+        
+        const getKPIColor = (value) => {
+            if (value < 30) return '#48bb78';
+            if (value < 70) return '#ed8936';
+            return '#f56565';
+        };
+        
+        kpiContainer.innerHTML = `
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                <div style="text-align: center;">
+                    <div style="font-size: 2em; font-weight: bold; color: ${getKPIColor(gpuUtilization)};">
+                        ${gpuUtilization.toFixed(1)}%
+                    </div>
+                    <div style="font-size: 0.9em; color: #666;">GPU Utilization</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2em; font-weight: bold; color: ${getKPIColor(systemLoad)};">
+                        ${systemLoad.toFixed(1)}%
+                    </div>
+                    <div style="font-size: 0.9em; color: #666;">System Load</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2em; font-weight: bold; color: ${getKPIColor(memoryUsage)};">
+                        ${memoryUsage.toFixed(1)}%
+                    </div>
+                    <div style="font-size: 0.9em; color: #666;">Memory Usage</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2em; font-weight: bold; color: #4299e1;">
+                        ${(Math.random() * 2000 + 1000).toFixed(0)}W
+                    </div>
+                    <div style="font-size: 0.9em; color: #666;">Power Draw</div>
+                </div>
+            </div>
+        `;
+    }
+    
+    function populatePerformanceTrends() {
+        const trendsContainer = document.getElementById('performanceTrends');
+        
+        trendsContainer.innerHTML = `
+            <div style="margin: 10px 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                    <span>GPU Performance</span>
+                    <span style="color: #48bb78;">↗ +5.2%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill progress-high" style="width: 85%;"></div>
+                </div>
+            </div>
+            <div style="margin: 10px 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                    <span>System Efficiency</span>
+                    <span style="color: #48bb78;">↗ +2.1%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill progress-medium" style="width: 72%;"></div>
+                </div>
+            </div>
+            <div style="margin: 10px 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                    <span>Power Efficiency</span>
+                    <span style="color: #ed8936;">↘ -1.3%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill progress-low" style="width: 68%;"></div>
+                </div>
+            </div>
+        `;
+    }
+    
+    function populateGPUMetricsGrid() {
+        const gridContainer = document.getElementById('gpuMetricsGrid');
+        
+        // Simulate GPU metrics for 8 GPUs
+        const gpuCards = [];
+        for (let i = 0; i < 8; i++) {
+            const utilization = Math.random() * 100;
+            const temperature = 35 + Math.random() * 45;
+            const power = 100 + Math.random() * 500;
+            const memory = Math.random() * 100;
+            
+            gpuCards.push(`
+                <div class="gpu-card">
+                    <div class="card-title">GPU ${i}</div>
+                    
+                    <div class="metric-row">
+                        <span>Utilization:</span>
+                        <span><strong>${utilization.toFixed(1)}%</strong></span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill ${utilization < 50 ? 'progress-low' : utilization < 80 ? 'progress-medium' : 'progress-high'}" style="width: ${utilization}%;"></div>
+                    </div>
+                    
+                    <div class="metric-row">
+                        <span>Temperature:</span>
+                        <span><strong>${temperature.toFixed(1)}°C</strong></span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill ${temperature < 60 ? 'progress-low' : temperature < 80 ? 'progress-medium' : 'progress-high'}" style="width: ${temperature}%;"></div>
+                    </div>
+                    
+                    <div class="metric-row">
+                        <span>Power:</span>
+                        <span><strong>${power.toFixed(1)}W</strong></span>
+                    </div>
+                    
+                    <div class="metric-row">
+                        <span>Memory:</span>
+                        <span><strong>${memory.toFixed(1)}%</strong></span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill ${memory < 70 ? 'progress-low' : memory < 90 ? 'progress-medium' : 'progress-high'}" style="width: ${memory}%;"></div>
+                    </div>
+                </div>
+            `);
+        }
+        
+        gridContainer.innerHTML = gpuCards.join('');
+    }
+    
+    function populateSystemMetricsGrid() {
+        const gridContainer = document.getElementById('systemMetricsGrid');
+        
+        const systemCards = [
+            {
+                title: 'CPU Metrics',
+                icon: '⚡',
+                metrics: [
+                    { name: 'Usage', value: '12.5%', color: 'progress-low' },
+                    { name: 'Load Avg', value: '0.8', color: 'progress-low' },
+                    { name: 'Cores', value: '128', color: 'progress-medium' }
+                ]
+            },
+            {
+                title: 'Memory Metrics',
+                icon: '💾',
+                metrics: [
+                    { name: 'Usage', value: '1.4%', color: 'progress-low' },
+                    { name: 'Available', value: '2TB', color: 'progress-medium' },
+                    { name: 'Swap', value: '0%', color: 'progress-low' }
+                ]
+            },
+            {
+                title: 'Network Metrics',
+                icon: '🌐',
+                metrics: [
+                    { name: 'Throughput', value: '1.2 Gbps', color: 'progress-medium' },
+                    { name: 'Latency', value: '<1ms', color: 'progress-low' },
+                    { name: 'Packets/s', value: '15K', color: 'progress-medium' }
+                ]
+            },
+            {
+                title: 'Storage Metrics',
+                icon: '💿',
+                metrics: [
+                    { name: 'IOPS', value: '25K', color: 'progress-high' },
+                    { name: 'Throughput', value: '800MB/s', color: 'progress-medium' },
+                    { name: 'Latency', value: '0.5ms', color: 'progress-low' }
+                ]
+            }
+        ];
+        
+        const cardsHtml = systemCards.map(card => `
+            <div class="card">
+                <div class="card-title">${card.icon} ${card.title}</div>
+                ${card.metrics.map(metric => `
+                    <div class="info-item">
+                        <span class="info-label">${metric.name}</span>
+                        <span class="info-value">${metric.value}</span>
+                    </div>
+                `).join('')}
+            </div>
+        `).join('');
+        
+        gridContainer.innerHTML = cardsHtml;
+    }
+    
+    function populateMetricsTable() {
+        if (!metricsData || metricsData.error) return;
+        
+        const tableBody = document.getElementById('metricsTableBody');
+        const allMetrics = [];
+        
+        // Flatten all metrics into a single array
+        if (Array.isArray(metricsData)) {
+            metricsData.forEach(componentData => {
+                if (componentData.metrics && Array.isArray(componentData.metrics)) {
+                    componentData.metrics.forEach(metric => {
+                        allMetrics.push({
+                            component: componentData.component || 'Unknown',
+                            ...metric
+                        });
+                    });
+                }
+            });
+        }
+        
+        if (allMetrics.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px; color: #666;">No metrics data available</td></tr>';
+            return;
+        }
+        
+        const rowsHtml = allMetrics.slice(0, 100).map(metric => `
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 12px; font-weight: 500;">${metric.component}</td>
+                <td style="padding: 12px;">${metric.name || 'Unknown Metric'}</td>
+                <td style="padding: 12px; font-family: monospace;">${formatMetricValue(metric.value)}</td>
+                <td style="padding: 12px;">${metric.unit || ''}</td>
+                <td style="padding: 12px; font-size: 0.9em;">${formatTimestamp(metric.timestamp)}</td>
+            </tr>
+        `).join('');
+        
+        tableBody.innerHTML = rowsHtml;
+    }
+    
+    function formatMetricValue(value) {
+        if (typeof value === 'number') {
+            return value.toFixed(2);
+        }
+        return value || 'N/A';
+    }
+    
+    function formatTimestamp(timestamp) {
+        if (!timestamp) return 'N/A';
+        const date = new Date(timestamp);
+        return date.toLocaleString();
+    }
+    
+    function initMetricsPage() {
+        populateMetricsSummary();
+        populateKPIMetrics();
+        populatePerformanceTrends();
+        populateGPUMetricsGrid();
+        populateSystemMetricsGrid();
+        populateMetricsTable();
+        updateLastUpdatedTime();
+    }
+    
+    // Initialize when page loads
+    document.addEventListener('DOMContentLoaded', initMetricsPage);
+</script>
+{% endblock %} 

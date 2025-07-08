@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}GPUd Enterprise Management System{% endblock %}</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <style>
+        .nav-bar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px 0;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .nav-logo {
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 0.9em;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+            background-color: #48bb78;
+        }
+        
+        .status-dot.error {
+            background-color: #f56565;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">🚀 GPUd Enterprise</a>
+            
+            <div class="nav-links">
+                <a href="/" class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}">
+                    🏠 Overview
+                </a>
+                <a href="/health" class="nav-link {% if request.endpoint == 'health_dashboard' %}active{% endif %}">
+                    💊 Health
+                </a>
+                <a href="/events" class="nav-link {% if request.endpoint == 'events_dashboard' %}active{% endif %}">
+                    📋 Events
+                </a>
+                <a href="/metrics" class="nav-link {% if request.endpoint == 'metrics_dashboard' %}active{% endif %}">
+                    📊 Metrics
+                </a>
+            </div>
+            
+            <div class="status-indicator">
+                <div class="status-dot" id="systemStatus"></div>
+                <span id="systemStatusText">System Online</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Global JavaScript -->
+    <script>
+        // Update system status indicator
+        function updateSystemStatus() {
+            fetch('/api/healthz')
+                .then(response => response.json())
+                .then(data => {
+                    const statusDot = document.getElementById('systemStatus');
+                    const statusText = document.getElementById('systemStatusText');
+                    
+                    if (data.error) {
+                        statusDot.className = 'status-dot error';
+                        statusText.textContent = 'System Error';
+                    } else {
+                        statusDot.className = 'status-dot';
+                        statusText.textContent = 'System Online';
+                    }
+                })
+                .catch(error => {
+                    console.error('Status check failed:', error);
+                    const statusDot = document.getElementById('systemStatus');
+                    const statusText = document.getElementById('systemStatusText');
+                    statusDot.className = 'status-dot error';
+                    statusText.textContent = 'Connection Error';
+                });
+        }
+        
+        // Update status every 30 seconds
+        setInterval(updateSystemStatus, 30000);
+        updateSystemStatus(); // Initial check
+        
+        // Auto-refresh pages every 60 seconds
+        setInterval(() => {
+            window.location.reload();
+        }, 60000);
+    </script>
+    
+    {% block scripts %}{% endblock %}
+</body>
+</html> 

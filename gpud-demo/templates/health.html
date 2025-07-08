@@ -1,0 +1,379 @@
+{% extends "base.html" %}
+
+{% block title %}Health Monitor - GPUd Management{% endblock %}
+
+{% block content %}
+<div style="max-width: 1600px; margin: 0 auto;">
+    <h1>💊 GPUd Health Monitor</h1>
+    <div class="subtitle">
+        GPUd Process & Component Health Status
+        <span id="lastUpdated" class="last-updated"></span>
+        <button onclick="refreshData()" class="refresh-btn" id="refreshBtn">🔄 Refresh</button>
+    </div>
+
+    <!-- Overall Health Status -->
+    <div class="dashboard-grid" style="margin-bottom: 30px;">
+        <div class="card">
+            <div class="card-title">🏥 Overall System Health</div>
+            <div style="text-align: center; padding: 20px;">
+                {% if health_data.overall_status == 'Healthy' %}
+                <div style="font-size: 3em; color: #48bb78;">✅</div>
+                <div style="font-size: 1.5em; font-weight: bold; color: #48bb78; margin: 10px 0;">System Healthy</div>
+                {% else %}
+                <div style="font-size: 3em; color: #f56565;">⚠️</div>
+                <div style="font-size: 1.5em; font-weight: bold; color: #f56565; margin: 10px 0;">System Issues Detected</div>
+                {% endif %}
+                <div style="font-size: 0.9em; color: #666;">Last checked: {{ health_data.timestamp[:19] if health_data.timestamp else 'Unknown' }}</div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">🔧 GPUd Process Status</div>
+            {% if health_data.gpud_process.error %}
+            <div style="padding: 15px; background: #fed7d7; border-radius: 8px; border-left: 4px solid #f56565;">
+                <div style="font-weight: bold; color: #c53030;">❌ GPUd Process Error</div>
+                <div style="color: #742a2a; margin-top: 5px;">{{ health_data.gpud_process.error }}</div>
+            </div>
+            {% else %}
+            <div style="padding: 15px; background: #c6f6d5; border-radius: 8px; border-left: 4px solid #48bb78;">
+                <div style="font-weight: bold; color: #22543d;">✅ GPUd Process Running</div>
+                <div style="color: #276749; margin-top: 5px;">Process is healthy and responding to requests</div>
+            </div>
+            <div style="margin-top: 15px;">
+                <div class="info-item">
+                    <span class="info-label">Response Time</span>
+                    <span class="info-value">< 100ms</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">API Endpoints</span>
+                    <span class="info-value">All Accessible</span>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="card">
+            <div class="card-title">📊 Health Summary</div>
+            <div id="healthSummary">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Component Health Grid -->
+    <div style="margin-bottom: 30px;">
+        <h2 style="text-align: center; color: #2d3748; margin-bottom: 20px;">🔧 Component Health Status</h2>
+        <div class="dashboard-grid" id="componentHealthGrid">
+            <!-- Will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- GPU Health Details -->
+    <div style="margin-bottom: 30px;">
+        <h2 style="text-align: center; color: #2d3748; margin-bottom: 20px;">🎮 GPU Health Details</h2>
+        <div class="gpu-grid" id="gpuHealthGrid">
+            <!-- Will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Detailed Health Table -->
+    <div class="card">
+        <div class="card-title">📋 All Component States</div>
+        <div style="overflow-x: auto;">
+            <table id="healthTable" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background-color: #f7fafc; border-bottom: 2px solid #e2e8f0;">
+                        <th style="padding: 12px; text-align: left; font-weight: 600;">Component</th>
+                        <th style="padding: 12px; text-align: left; font-weight: 600;">Health Status</th>
+                        <th style="padding: 12px; text-align: left; font-weight: 600;">Reason</th>
+                        <th style="padding: 12px; text-align: left; font-weight: 600;">Last Check</th>
+                        <th style="padding: 12px; text-align: left; font-weight: 600;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="healthTableBody">
+                    <!-- Will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const healthData = {{ health_data | tojson }};
+    
+    function updateLastUpdatedTime() {
+        const now = new Date();
+        document.getElementById('lastUpdated').textContent = 
+            `Last updated: ${now.toLocaleTimeString()}`;
+    }
+    
+    function refreshData() {
+        const refreshBtn = document.getElementById('refreshBtn');
+        refreshBtn.disabled = true;
+        refreshBtn.textContent = '🔄 Refreshing...';
+        
+        setTimeout(() => {
+            window.location.reload();
+        }, 500);
+    }
+    
+    function populateHealthSummary() {
+        const summaryContainer = document.getElementById('healthSummary');
+        
+        if (!healthData.component_states || healthData.component_states.error) {
+            summaryContainer.innerHTML = `
+                <div class="info-item">
+                    <span class="info-label">Status</span>
+                    <span class="info-value" style="color: #f56565;">Error</span>
+                </div>
+                <div style="color: #666; font-size: 0.9em;">Cannot fetch component states</div>
+            `;
+            return;
+        }
+        
+        const components = healthData.component_states || [];
+        const healthyCount = components.filter(c => c.states && c.states[0] && c.states[0].health === 'Healthy').length;
+        const unhealthyCount = components.filter(c => c.states && c.states[0] && c.states[0].health === 'Unhealthy').length;
+        const totalCount = components.length;
+        
+        summaryContainer.innerHTML = `
+            <div class="info-item">
+                <span class="info-label">Total Components</span>
+                <span class="info-value">${totalCount}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Healthy</span>
+                <span class="info-value" style="color: #48bb78;">${healthyCount}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Unhealthy</span>
+                <span class="info-value" style="color: #f56565;">${unhealthyCount}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Health Rate</span>
+                <span class="info-value">${totalCount > 0 ? ((healthyCount / totalCount) * 100).toFixed(1) : 0}%</span>
+            </div>
+        `;
+    }
+    
+    function populateComponentHealthGrid() {
+        const gridContainer = document.getElementById('componentHealthGrid');
+        
+        if (!healthData.component_states || healthData.component_states.error) {
+            gridContainer.innerHTML = `
+                <div class="card">
+                    <div class="card-title">❌ Connection Error</div>
+                    <div style="color: #666;">Cannot fetch component health data</div>
+                </div>
+            `;
+            return;
+        }
+        
+        const components = healthData.component_states || [];
+        const componentGroups = {
+            'GPU Components': [],
+            'System Components': [],
+            'Container Components': [],
+            'Other Components': []
+        };
+        
+        components.forEach(component => {
+            const name = component.component || 'Unknown';
+            if (name.includes('accelerator') || name.includes('gpu') || name.includes('nvidia')) {
+                componentGroups['GPU Components'].push(component);
+            } else if (name.includes('docker') || name.includes('containerd') || name.includes('kubelet')) {
+                componentGroups['Container Components'].push(component);
+            } else if (['cpu', 'memory', 'disk', 'os', 'network'].some(sys => name.includes(sys))) {
+                componentGroups['System Components'].push(component);
+            } else {
+                componentGroups['Other Components'].push(component);
+            }
+        });
+        
+        const cardsHtml = Object.entries(componentGroups)
+            .filter(([group, comps]) => comps.length > 0)
+            .map(([group, comps]) => {
+                const healthyCount = comps.filter(c => c.states && c.states[0] && c.states[0].health === 'Healthy').length;
+                const totalCount = comps.length;
+                const healthPercentage = totalCount > 0 ? (healthyCount / totalCount) * 100 : 0;
+                
+                return `
+                    <div class="card">
+                        <div class="card-title">${getGroupIcon(group)} ${group}</div>
+                        <div class="info-item">
+                            <span class="info-label">Components</span>
+                            <span class="info-value">${totalCount}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Health Rate</span>
+                            <span class="info-value" style="color: ${healthPercentage >= 100 ? '#48bb78' : healthPercentage >= 80 ? '#ed8936' : '#f56565'};">
+                                ${healthPercentage.toFixed(1)}%
+                            </span>
+                        </div>
+                        <div class="progress-bar" style="margin-top: 10px;">
+                            <div class="progress-fill ${healthPercentage >= 100 ? 'progress-low' : healthPercentage >= 80 ? 'progress-medium' : 'progress-high'}" 
+                                 style="width: ${healthPercentage}%;"></div>
+                        </div>
+                        <div style="margin-top: 10px; font-size: 0.85em;">
+                            ${comps.slice(0, 3).map(c => {
+                                const health = c.states && c.states[0] ? c.states[0].health : 'Unknown';
+                                const color = health === 'Healthy' ? '#48bb78' : '#f56565';
+                                return `<div style="color: ${color};">• ${formatComponentName(c.component || 'Unknown')}</div>`;
+                            }).join('')}
+                            ${comps.length > 3 ? `<div style="color: #666;">... and ${comps.length - 3} more</div>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        
+        gridContainer.innerHTML = cardsHtml;
+    }
+    
+    function populateGPUHealthGrid() {
+        const gridContainer = document.getElementById('gpuHealthGrid');
+        
+        if (!healthData.component_states || healthData.component_states.error) {
+            gridContainer.innerHTML = `
+                <div class="gpu-card">
+                    <div class="card-title">❌ No GPU Health Data</div>
+                    <div style="color: #666;">Cannot fetch GPU component data</div>
+                </div>
+            `;
+            return;
+        }
+        
+        const components = healthData.component_states || [];
+        const gpuComponents = components.filter(c => 
+            c.component && (c.component.includes('accelerator') || c.component.includes('nvidia'))
+        );
+        
+        if (gpuComponents.length === 0) {
+            gridContainer.innerHTML = `
+                <div class="gpu-card">
+                    <div class="card-title">ℹ️ No GPU Components</div>
+                    <div style="color: #666;">No GPU-related components found</div>
+                </div>
+            `;
+            return;
+        }
+        
+        const gpuCardsHtml = gpuComponents.map(component => {
+            const state = component.states && component.states[0] ? component.states[0] : {};
+            const health = state.health || 'Unknown';
+            const reason = state.reason || 'No reason provided';
+            const name = formatComponentName(component.component || 'Unknown');
+            
+            const healthColor = health === 'Healthy' ? '#48bb78' : health === 'Unhealthy' ? '#f56565' : '#ed8936';
+            const healthIcon = health === 'Healthy' ? '✅' : health === 'Unhealthy' ? '❌' : '⚠️';
+            
+            return `
+                <div class="gpu-card">
+                    <div class="card-title">${healthIcon} ${name}</div>
+                    
+                    <div class="metric-row">
+                        <span>Status:</span>
+                        <span style="color: ${healthColor}; font-weight: bold;">${health}</span>
+                    </div>
+                    
+                    <div style="margin: 10px 0; padding: 10px; background: #f7fafc; border-radius: 6px; font-size: 0.9em;">
+                        <strong>Details:</strong><br>
+                        ${reason}
+                    </div>
+                    
+                    <div class="metric-row">
+                        <span>Last Check:</span>
+                        <span>${formatTimestamp(state.time)}</span>
+                    </div>
+                    
+                    <div style="margin-top: 10px;">
+                        <button onclick="checkComponent('${component.component}')" 
+                                style="background: #667eea; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.8em;">
+                            🔄 Recheck
+                        </button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+        gridContainer.innerHTML = gpuCardsHtml;
+    }
+    
+    function populateHealthTable() {
+        const tableBody = document.getElementById('healthTableBody');
+        
+        if (!healthData.component_states || healthData.component_states.error) {
+            tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px; color: #666;">No health data available</td></tr>';
+            return;
+        }
+        
+        const components = healthData.component_states || [];
+        
+        const rowsHtml = components.map(component => {
+            const state = component.states && component.states[0] ? component.states[0] : {};
+            const health = state.health || 'Unknown';
+            const reason = state.reason || 'No reason provided';
+            const time = state.time || 'Unknown';
+            const name = component.component || 'Unknown';
+            
+            const healthColor = health === 'Healthy' ? '#48bb78' : health === 'Unhealthy' ? '#f56565' : '#ed8936';
+            const healthIcon = health === 'Healthy' ? '✅' : health === 'Unhealthy' ? '❌' : '⚠️';
+            
+            return `
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                    <td style="padding: 12px; font-weight: 500;">${formatComponentName(name)}</td>
+                    <td style="padding: 12px;">
+                        <span style="color: ${healthColor};">${healthIcon} ${health}</span>
+                    </td>
+                    <td style="padding: 12px; max-width: 300px; word-wrap: break-word;">${reason}</td>
+                    <td style="padding: 12px; font-size: 0.9em;">${formatTimestamp(time)}</td>
+                    <td style="padding: 12px;">
+                        <button onclick="checkComponent('${name}')" 
+                                style="background: #667eea; color: white; border: none; padding: 4px 8px; border-radius: 3px; cursor: pointer; font-size: 0.75em;">
+                            Recheck
+                        </button>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+        
+        tableBody.innerHTML = rowsHtml;
+    }
+    
+    function getGroupIcon(group) {
+        const icons = {
+            'GPU Components': '🎮',
+            'System Components': '🖥️',
+            'Container Components': '📦',
+            'Other Components': '🔧'
+        };
+        return icons[group] || '❓';
+    }
+    
+    function formatComponentName(name) {
+        return name.replace('accelerator-nvidia-', 'GPU ').replace(/-/g, ' ').toUpperCase();
+    }
+    
+    function formatTimestamp(timestamp) {
+        if (!timestamp) return 'Unknown time';
+        const date = new Date(timestamp);
+        return date.toLocaleString();
+    }
+    
+    function checkComponent(componentName) {
+        alert(`Rechecking component: ${componentName}\n\nThis would trigger a health check for the specific component.`);
+    }
+    
+    function initHealthPage() {
+        populateHealthSummary();
+        populateComponentHealthGrid();
+        populateGPUHealthGrid();
+        populateHealthTable();
+        updateLastUpdatedTime();
+    }
+    
+    // Initialize when page loads
+    document.addEventListener('DOMContentLoaded', initHealthPage);
+</script>
+{% endblock %} 

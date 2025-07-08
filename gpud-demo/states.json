@@ -1,0 +1,471 @@
+[
+  {
+    "component": "accelerator-nvidia-bad-envs",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "accelerator-nvidia-bad-envs",
+        "name": "accelerator-nvidia-bad-envs",
+        "health": "Healthy",
+        "reason": "no bad envs found"
+      }
+    ]
+  },
+  {
+    "component": "accelerator-nvidia-clock-speed",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "accelerator-nvidia-clock-speed",
+        "name": "accelerator-nvidia-clock-speed",
+        "health": "Healthy",
+        "reason": "all 8 GPU(s) were checked, no clock speed issue found",
+        "extra_info": {
+          "data": "{\"clock_speeds\":[{\"uuid\":\"GPU-20d8ff57-875c-65aa-285c-8feff4278a26\",\"graphics_mhz\":1980,\"memory_mhz\":2619,\"clock_graphics_supported\":true,\"clock_memory_supported\":true},{\"uuid\":\"GPU-1219bf90-9c87-865f-28d6-3ec2c4accf2b\",\"graphics_mhz\":1980,\"memory_mhz\":2619,\"clock_graphics_supported\":true,\"clock_memory_supported\":true},{\"uuid\":\"GPU-ac23289f-8b6b-32b7-2fa1-e76baaf2da4c\",\"graphics_mhz\":1980,\"memory_mhz\":2619,\"clock_graphics_supported\":true,\"clock_memory_supported\":true},{\"uuid\":\"GPU-b707351a-d2bf-8d8a-25a1-13b057ce8bd2\",\"graphics_mhz\":1980,\"memory_mhz\":2619,\"clock_graphics_supported\":true,\"clock_memory_supported\":true},{\"uuid\":\"GPU-9c8ab3cd-57c5-c2d2-425f-cbfd2049afa8\",\"graphics_mhz\":1980,\"memory_mhz\":2619,\"clock_graphics_supported\":true,\"clock_memory_supported\":true},{\"uuid\":\"GPU-eaf8cdef-4ac5-8a00-abfa-89f7d6ddb848\",\"graphics_mhz\":1980,\"memory_mhz\":2619,\"clock_graphics_supported\":true,\"clock_memory_supported\":true},{\"uuid\":\"GPU-e40241fa-ebb5-3c5b-3990-657a500956b8\",\"graphics_mhz\":1980,\"memory_mhz\":2619,\"clock_graphics_supported\":true,\"clock_memory_supported\":true},{\"uuid\":\"GPU-c749f1ac-21c2-db47-b327-9c75f5e89a8c\",\"graphics_mhz\":1980,\"memory_mhz\":2619,\"clock_graphics_supported\":true,\"clock_memory_supported\":true}]}"
+        }
+      }
+    ]
+  },
+  {
+    "component": "accelerator-nvidia-ecc",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "accelerator-nvidia-ecc",
+        "name": "accelerator-nvidia-ecc",
+        "health": "Healthy",
+        "reason": "all 8 GPU(s) were checked, no ECC issue found",
+        "extra_info": {
+          "data": "{\"ecc_modes\":[{\"uuid\":\"GPU-c749f1ac-21c2-db47-b327-9c75f5e89a8c\",\"enabled_current\":true,\"enabled_pending\":true,\"supported\":true},{\"uuid\":\"GPU-20d8ff57-875c-65aa-285c-8feff4278a26\",\"enabled_current\":true,\"enabled_pending\":true,\"supported\":true},{\"uuid\":\"GPU-1219bf90-9c87-865f-28d6-3ec2c4accf2b\",\"enabled_current\":true,\"enabled_pending\":true,\"supported\":true},{\"uuid\":\"GPU-ac23289f-8b6b-32b7-2fa1-e76baaf2da4c\",\"enabled_current\":true,\"enabled_pending\":true,\"supported\":true},{\"uuid\":\"GPU-b707351a-d2bf-8d8a-25a1-13b057ce8bd2\",\"enabled_current\":true,\"enabled_pending\":true,\"supported\":true},{\"uuid\":\"GPU-9c8ab3cd-57c5-c2d2-425f-cbfd2049afa8\",\"enabled_current\":true,\"enabled_pending\":true,\"supported\":true},{\"uuid\":\"GPU-eaf8cdef-4ac5-8a00-abfa-89f7d6ddb848\",\"enabled_current\":true,\"enabled_pending\":true,\"supported\":true},{\"uuid\":\"GPU-e40241fa-ebb5-3c5b-3990-657a500956b8\",\"enabled_current\":true,\"enabled_pending\":true,\"supported\":true}],\"ecc_errors\":[{\"uuid\":\"GPU-c749f1ac-21c2-db47-b327-9c75f5e89a8c\",\"aggregate\":{\"total\":{\"corrected\":0,\"uncorrected\":0},\"l1_cache\":{\"corrected\":0,\"uncorrected\":0},\"l2_cache\":{\"corrected\":0,\"uncorrected\":0},\"dram\":{\"corrected\":0,\"uncorrected\":0},\"sram\":{\"corrected\":0,\"uncorrected\":0},\"gpu_device_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_texture_memory\":{\"corrected\":0,\"uncorrected\":0},\"shared_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_register_file\":{\"corrected\":0,\"uncorrected\":0}},\"volatile\":{\"total\":{\"corrected\":0,\"uncorrected\":0},\"l1_cache\":{\"corrected\":0,\"uncorrected\":0},\"l2_cache\":{\"corrected\":0,\"uncorrected\":0},\"dram\":{\"corrected\":0,\"uncorrected\":0},\"sram\":{\"corrected\":0,\"uncorrected\":0},\"gpu_device_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_texture_memory\":{\"corrected\":0,\"uncorrected\":0},\"shared_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_register_file\":{\"corrected\":0,\"uncorrected\":0}},\"supported\":false},{\"uuid\":\"GPU-20d8ff57-875c-65aa-285c-8feff4278a26\",\"aggregate\":{\"total\":{\"corrected\":0,\"uncorrected\":0},\"l1_cache\":{\"corrected\":0,\"uncorrected\":0},\"l2_cache\":{\"corrected\":0,\"uncorrected\":0},\"dram\":{\"corrected\":0,\"uncorrected\":0},\"sram\":{\"corrected\":0,\"uncorrected\":0},\"gpu_device_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_texture_memory\":{\"corrected\":0,\"uncorrected\":0},\"shared_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_register_file\":{\"corrected\":0,\"uncorrected\":0}},\"volatile\":{\"total\":{\"corrected\":0,\"uncorrected\":0},\"l1_cache\":{\"corrected\":0,\"uncorrected\":0},\"l2_cache\":{\"corrected\":0,\"uncorrected\":0},\"dram\":{\"corrected\":0,\"uncorrected\":0},\"sram\":{\"corrected\":0,\"uncorrected\":0},\"gpu_device_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_texture_memory\":{\"corrected\":0,\"uncorrected\":0},\"shared_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_register_file\":{\"corrected\":0,\"uncorrected\":0}},\"supported\":false},{\"uuid\":\"GPU-1219bf90-9c87-865f-28d6-3ec2c4accf2b\",\"aggregate\":{\"total\":{\"corrected\":0,\"uncorrected\":0},\"l1_cache\":{\"corrected\":0,\"uncorrected\":0},\"l2_cache\":{\"corrected\":0,\"uncorrected\":0},\"dram\":{\"corrected\":0,\"uncorrected\":0},\"sram\":{\"corrected\":0,\"uncorrected\":0},\"gpu_device_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_texture_memory\":{\"corrected\":0,\"uncorrected\":0},\"shared_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_register_file\":{\"corrected\":0,\"uncorrected\":0}},\"volatile\":{\"total\":{\"corrected\":0,\"uncorrected\":0},\"l1_cache\":{\"corrected\":0,\"uncorrected\":0},\"l2_cache\":{\"corrected\":0,\"uncorrected\":0},\"dram\":{\"corrected\":0,\"uncorrected\":0},\"sram\":{\"corrected\":0,\"uncorrected\":0},\"gpu_device_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_texture_memory\":{\"corrected\":0,\"uncorrected\":0},\"shared_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_register_file\":{\"corrected\":0,\"uncorrected\":0}},\"supported\":false},{\"uuid\":\"GPU-ac23289f-8b6b-32b7-2fa1-e76baaf2da4c\",\"aggregate\":{\"total\":{\"corrected\":0,\"uncorrected\":0},\"l1_cache\":{\"corrected\":0,\"uncorrected\":0},\"l2_cache\":{\"corrected\":0,\"uncorrected\":0},\"dram\":{\"corrected\":0,\"uncorrected\":0},\"sram\":{\"corrected\":0,\"uncorrected\":0},\"gpu_device_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_texture_memory\":{\"corrected\":0,\"uncorrected\":0},\"shared_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_register_file\":{\"corrected\":0,\"uncorrected\":0}},\"volatile\":{\"total\":{\"corrected\":0,\"uncorrected\":0},\"l1_cache\":{\"corrected\":0,\"uncorrected\":0},\"l2_cache\":{\"corrected\":0,\"uncorrected\":0},\"dram\":{\"corrected\":0,\"uncorrected\":0},\"sram\":{\"corrected\":0,\"uncorrected\":0},\"gpu_device_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_texture_memory\":{\"corrected\":0,\"uncorrected\":0},\"shared_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_register_file\":{\"corrected\":0,\"uncorrected\":0}},\"supported\":false},{\"uuid\":\"GPU-b707351a-d2bf-8d8a-25a1-13b057ce8bd2\",\"aggregate\":{\"total\":{\"corrected\":0,\"uncorrected\":0},\"l1_cache\":{\"corrected\":0,\"uncorrected\":0},\"l2_cache\":{\"corrected\":0,\"uncorrected\":0},\"dram\":{\"corrected\":0,\"uncorrected\":0},\"sram\":{\"corrected\":0,\"uncorrected\":0},\"gpu_device_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_texture_memory\":{\"corrected\":0,\"uncorrected\":0},\"shared_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_register_file\":{\"corrected\":0,\"uncorrected\":0}},\"volatile\":{\"total\":{\"corrected\":0,\"uncorrected\":0},\"l1_cache\":{\"corrected\":0,\"uncorrected\":0},\"l2_cache\":{\"corrected\":0,\"uncorrected\":0},\"dram\":{\"corrected\":0,\"uncorrected\":0},\"sram\":{\"corrected\":0,\"uncorrected\":0},\"gpu_device_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_texture_memory\":{\"corrected\":0,\"uncorrected\":0},\"shared_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_register_file\":{\"corrected\":0,\"uncorrected\":0}},\"supported\":false},{\"uuid\":\"GPU-9c8ab3cd-57c5-c2d2-425f-cbfd2049afa8\",\"aggregate\":{\"total\":{\"corrected\":0,\"uncorrected\":0},\"l1_cache\":{\"corrected\":0,\"uncorrected\":0},\"l2_cache\":{\"corrected\":0,\"uncorrected\":0},\"dram\":{\"corrected\":0,\"uncorrected\":0},\"sram\":{\"corrected\":0,\"uncorrected\":0},\"gpu_device_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_texture_memory\":{\"corrected\":0,\"uncorrected\":0},\"shared_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_register_file\":{\"corrected\":0,\"uncorrected\":0}},\"volatile\":{\"total\":{\"corrected\":0,\"uncorrected\":0},\"l1_cache\":{\"corrected\":0,\"uncorrected\":0},\"l2_cache\":{\"corrected\":0,\"uncorrected\":0},\"dram\":{\"corrected\":0,\"uncorrected\":0},\"sram\":{\"corrected\":0,\"uncorrected\":0},\"gpu_device_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_texture_memory\":{\"corrected\":0,\"uncorrected\":0},\"shared_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_register_file\":{\"corrected\":0,\"uncorrected\":0}},\"supported\":false},{\"uuid\":\"GPU-eaf8cdef-4ac5-8a00-abfa-89f7d6ddb848\",\"aggregate\":{\"total\":{\"corrected\":0,\"uncorrected\":0},\"l1_cache\":{\"corrected\":0,\"uncorrected\":0},\"l2_cache\":{\"corrected\":0,\"uncorrected\":0},\"dram\":{\"corrected\":0,\"uncorrected\":0},\"sram\":{\"corrected\":0,\"uncorrected\":0},\"gpu_device_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_texture_memory\":{\"corrected\":0,\"uncorrected\":0},\"shared_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_register_file\":{\"corrected\":0,\"uncorrected\":0}},\"volatile\":{\"total\":{\"corrected\":0,\"uncorrected\":0},\"l1_cache\":{\"corrected\":0,\"uncorrected\":0},\"l2_cache\":{\"corrected\":0,\"uncorrected\":0},\"dram\":{\"corrected\":0,\"uncorrected\":0},\"sram\":{\"corrected\":0,\"uncorrected\":0},\"gpu_device_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_texture_memory\":{\"corrected\":0,\"uncorrected\":0},\"shared_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_register_file\":{\"corrected\":0,\"uncorrected\":0}},\"supported\":false},{\"uuid\":\"GPU-e40241fa-ebb5-3c5b-3990-657a500956b8\",\"aggregate\":{\"total\":{\"corrected\":0,\"uncorrected\":0},\"l1_cache\":{\"corrected\":0,\"uncorrected\":0},\"l2_cache\":{\"corrected\":0,\"uncorrected\":0},\"dram\":{\"corrected\":0,\"uncorrected\":0},\"sram\":{\"corrected\":0,\"uncorrected\":0},\"gpu_device_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_texture_memory\":{\"corrected\":0,\"uncorrected\":0},\"shared_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_register_file\":{\"corrected\":0,\"uncorrected\":0}},\"volatile\":{\"total\":{\"corrected\":0,\"uncorrected\":0},\"l1_cache\":{\"corrected\":0,\"uncorrected\":0},\"l2_cache\":{\"corrected\":0,\"uncorrected\":0},\"dram\":{\"corrected\":0,\"uncorrected\":0},\"sram\":{\"corrected\":0,\"uncorrected\":0},\"gpu_device_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_texture_memory\":{\"corrected\":0,\"uncorrected\":0},\"shared_memory\":{\"corrected\":0,\"uncorrected\":0},\"gpu_register_file\":{\"corrected\":0,\"uncorrected\":0}},\"supported\":false}]}"
+        }
+      }
+    ]
+  },
+  {
+    "component": "accelerator-nvidia-error-sxid",
+    "states": [
+      {
+        "time": null,
+        "name": "error_sxid",
+        "health": "Healthy",
+        "reason": "SXIDComponent is healthy"
+      }
+    ]
+  },
+  {
+    "component": "accelerator-nvidia-error-xid",
+    "states": [
+      {
+        "time": null,
+        "name": "error_xid",
+        "health": "Healthy",
+        "reason": "XIDComponent is healthy"
+      }
+    ]
+  },
+  {
+    "component": "accelerator-nvidia-fabric-manager",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "accelerator-nvidia-fabric-manager",
+        "name": "accelerator-nvidia-fabric-manager",
+        "health": "Healthy",
+        "reason": "fabric manager found and active",
+        "extra_info": {
+          "data": "{\"fabric_manager_active\":true}"
+        }
+      }
+    ]
+  },
+  {
+    "component": "accelerator-nvidia-gpm",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "accelerator-nvidia-gpm",
+        "name": "accelerator-nvidia-gpm",
+        "health": "Healthy",
+        "reason": "GPM not supported"
+      }
+    ]
+  },
+  {
+    "component": "accelerator-nvidia-gsp-firmware",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "accelerator-nvidia-gsp-firmware",
+        "name": "accelerator-nvidia-gsp-firmware",
+        "health": "Healthy",
+        "reason": "GSP firmware mode supported but should be disabled for GPU-ac23289f-8b6b-32b7-2fa1-e76baaf2da4c, GPU-b707351a-d2bf-8d8a-25a1-13b057ce8bd2, GPU-9c8ab3cd-57c5-c2d2-425f-cbfd2049afa8, GPU-eaf8cdef-4ac5-8a00-abfa-89f7d6ddb848, GPU-e40241fa-ebb5-3c5b-3990-657a500956b8, GPU-c749f1ac-21c2-db47-b327-9c75f5e89a8c, GPU-20d8ff57-875c-65aa-285c-8feff4278a26, GPU-1219bf90-9c87-865f-28d6-3ec2c4accf2b",
+        "extra_info": {
+          "data": "{\"gsp_firmware_modes\":[{\"uuid\":\"GPU-ac23289f-8b6b-32b7-2fa1-e76baaf2da4c\",\"enabled\":true,\"supported\":true},{\"uuid\":\"GPU-b707351a-d2bf-8d8a-25a1-13b057ce8bd2\",\"enabled\":true,\"supported\":true},{\"uuid\":\"GPU-9c8ab3cd-57c5-c2d2-425f-cbfd2049afa8\",\"enabled\":true,\"supported\":true},{\"uuid\":\"GPU-eaf8cdef-4ac5-8a00-abfa-89f7d6ddb848\",\"enabled\":true,\"supported\":true},{\"uuid\":\"GPU-e40241fa-ebb5-3c5b-3990-657a500956b8\",\"enabled\":true,\"supported\":true},{\"uuid\":\"GPU-c749f1ac-21c2-db47-b327-9c75f5e89a8c\",\"enabled\":true,\"supported\":true},{\"uuid\":\"GPU-20d8ff57-875c-65aa-285c-8feff4278a26\",\"enabled\":true,\"supported\":true},{\"uuid\":\"GPU-1219bf90-9c87-865f-28d6-3ec2c4accf2b\",\"enabled\":true,\"supported\":true}]}"
+        }
+      }
+    ]
+  },
+  {
+    "component": "accelerator-nvidia-hw-slowdown",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "accelerator-nvidia-hw-slowdown",
+        "name": "accelerator-nvidia-hw-slowdown",
+        "health": "Healthy",
+        "reason": "no clock events found",
+        "extra_info": {
+          "data": "{\"clock_events\":[{\"time\":\"2025-07-08T21:11:44Z\",\"uuid\":\"GPU-e40241fa-ebb5-3c5b-3990-657a500956b8\",\"reasons_bitmask\":0,\"hw_slowdown\":false,\"hw_thermal_slowdown\":false,\"hw_slowdown_power_brake\":false,\"supported\":true},{\"time\":\"2025-07-08T21:11:44Z\",\"uuid\":\"GPU-c749f1ac-21c2-db47-b327-9c75f5e89a8c\",\"reasons_bitmask\":0,\"hw_slowdown\":false,\"hw_thermal_slowdown\":false,\"hw_slowdown_power_brake\":false,\"supported\":true},{\"time\":\"2025-07-08T21:11:44Z\",\"uuid\":\"GPU-20d8ff57-875c-65aa-285c-8feff4278a26\",\"reasons_bitmask\":0,\"hw_slowdown\":false,\"hw_thermal_slowdown\":false,\"hw_slowdown_power_brake\":false,\"supported\":true},{\"time\":\"2025-07-08T21:11:44Z\",\"uuid\":\"GPU-1219bf90-9c87-865f-28d6-3ec2c4accf2b\",\"reasons_bitmask\":0,\"hw_slowdown\":false,\"hw_thermal_slowdown\":false,\"hw_slowdown_power_brake\":false,\"supported\":true},{\"time\":\"2025-07-08T21:11:44Z\",\"uuid\":\"GPU-ac23289f-8b6b-32b7-2fa1-e76baaf2da4c\",\"reasons_bitmask\":0,\"hw_slowdown\":false,\"hw_thermal_slowdown\":false,\"hw_slowdown_power_brake\":false,\"supported\":true},{\"time\":\"2025-07-08T21:11:44Z\",\"uuid\":\"GPU-b707351a-d2bf-8d8a-25a1-13b057ce8bd2\",\"reasons_bitmask\":0,\"hw_slowdown\":false,\"hw_thermal_slowdown\":false,\"hw_slowdown_power_brake\":false,\"supported\":true},{\"time\":\"2025-07-08T21:11:44Z\",\"uuid\":\"GPU-9c8ab3cd-57c5-c2d2-425f-cbfd2049afa8\",\"reasons_bitmask\":0,\"hw_slowdown\":false,\"hw_thermal_slowdown\":false,\"hw_slowdown_power_brake\":false,\"supported\":true},{\"time\":\"2025-07-08T21:11:44Z\",\"uuid\":\"GPU-eaf8cdef-4ac5-8a00-abfa-89f7d6ddb848\",\"reasons_bitmask\":0,\"hw_slowdown\":false,\"hw_thermal_slowdown\":false,\"hw_slowdown_power_brake\":false,\"supported\":true}]}"
+        }
+      }
+    ]
+  },
+  {
+    "component": "accelerator-nvidia-infiniband",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "accelerator-nvidia-infiniband",
+        "name": "accelerator-nvidia-infiniband",
+        "health": "Healthy",
+        "reason": "ports or rate threshold not set, skipping"
+      }
+    ]
+  },
+  {
+    "component": "accelerator-nvidia-memory",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "accelerator-nvidia-memory",
+        "name": "accelerator-nvidia-memory",
+        "health": "Healthy",
+        "reason": "all 8 GPU(s) were checked, no memory issue found",
+        "extra_info": {
+          "data": "{\"memories\":[{\"uuid\":\"GPU-9c8ab3cd-57c5-c2d2-425f-cbfd2049afa8\",\"total_bytes\":85520809984,\"total_humanized\":\"86 GB\",\"reserved_bytes\":475332608,\"reserved_humanized\":\"475 MB\",\"used_bytes\":76733808640,\"used_humanized\":\"77 GB\",\"free_bytes\":8311668736,\"free_humanized\":\"8.3 GB\",\"used_percent\":\"89.73\",\"supported\":true},{\"uuid\":\"GPU-eaf8cdef-4ac5-8a00-abfa-89f7d6ddb848\",\"total_bytes\":85520809984,\"total_humanized\":\"86 GB\",\"reserved_bytes\":475332608,\"reserved_humanized\":\"475 MB\",\"used_bytes\":76733808640,\"used_humanized\":\"77 GB\",\"free_bytes\":8311668736,\"free_humanized\":\"8.3 GB\",\"used_percent\":\"89.73\",\"supported\":true},{\"uuid\":\"GPU-e40241fa-ebb5-3c5b-3990-657a500956b8\",\"total_bytes\":85520809984,\"total_humanized\":\"86 GB\",\"reserved_bytes\":475332608,\"reserved_humanized\":\"475 MB\",\"used_bytes\":76733808640,\"used_humanized\":\"77 GB\",\"free_bytes\":8311668736,\"free_humanized\":\"8.3 GB\",\"used_percent\":\"89.73\",\"supported\":true},{\"uuid\":\"GPU-c749f1ac-21c2-db47-b327-9c75f5e89a8c\",\"total_bytes\":85520809984,\"total_humanized\":\"86 GB\",\"reserved_bytes\":475332608,\"reserved_humanized\":\"475 MB\",\"used_bytes\":76733808640,\"used_humanized\":\"77 GB\",\"free_bytes\":8311668736,\"free_humanized\":\"8.3 GB\",\"used_percent\":\"89.73\",\"supported\":true},{\"uuid\":\"GPU-20d8ff57-875c-65aa-285c-8feff4278a26\",\"total_bytes\":85520809984,\"total_humanized\":\"86 GB\",\"reserved_bytes\":475332608,\"reserved_humanized\":\"475 MB\",\"used_bytes\":76733808640,\"used_humanized\":\"77 GB\",\"free_bytes\":8311668736,\"free_humanized\":\"8.3 GB\",\"used_percent\":\"89.73\",\"supported\":true},{\"uuid\":\"GPU-1219bf90-9c87-865f-28d6-3ec2c4accf2b\",\"total_bytes\":85520809984,\"total_humanized\":\"86 GB\",\"reserved_bytes\":475332608,\"reserved_humanized\":\"475 MB\",\"used_bytes\":76733808640,\"used_humanized\":\"77 GB\",\"free_bytes\":8311668736,\"free_humanized\":\"8.3 GB\",\"used_percent\":\"89.73\",\"supported\":true},{\"uuid\":\"GPU-ac23289f-8b6b-32b7-2fa1-e76baaf2da4c\",\"total_bytes\":85520809984,\"total_humanized\":\"86 GB\",\"reserved_bytes\":475332608,\"reserved_humanized\":\"475 MB\",\"used_bytes\":76230492160,\"used_humanized\":\"76 GB\",\"free_bytes\":8814985216,\"free_humanized\":\"8.8 GB\",\"used_percent\":\"89.14\",\"supported\":true},{\"uuid\":\"GPU-b707351a-d2bf-8d8a-25a1-13b057ce8bd2\",\"total_bytes\":85520809984,\"total_humanized\":\"86 GB\",\"reserved_bytes\":475332608,\"reserved_humanized\":\"475 MB\",\"used_bytes\":78914846720,\"used_humanized\":\"79 GB\",\"free_bytes\":6130630656,\"free_humanized\":\"6.1 GB\",\"used_percent\":\"92.28\",\"supported\":true}]}"
+        }
+      }
+    ]
+  },
+  {
+    "component": "accelerator-nvidia-nccl",
+    "states": [
+      {
+        "time": null,
+        "component": "accelerator-nvidia-nccl",
+        "health": "Healthy",
+        "reason": "no issue"
+      }
+    ]
+  },
+  {
+    "component": "accelerator-nvidia-nvlink",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "accelerator-nvidia-nvlink",
+        "name": "accelerator-nvidia-nvlink",
+        "health": "Healthy",
+        "reason": "all 8 GPU(s) were checked, no nvlink issue found",
+        "extra_info": {
+          "data": "{\"nvlinks\":[{\"uuid\":\"GPU-eaf8cdef-4ac5-8a00-abfa-89f7d6ddb848\",\"states\":[{\"link\":0,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":1,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":2,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":3,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":4,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":5,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":6,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":7,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":8,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":9,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":10,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":11,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":12,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":13,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":14,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":15,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":16,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":17,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0}],\"supported\":true},{\"uuid\":\"GPU-e40241fa-ebb5-3c5b-3990-657a500956b8\",\"states\":[{\"link\":0,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":1,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":2,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":3,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":4,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":5,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":6,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":7,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":8,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":9,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":10,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":11,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":12,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":13,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":14,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":15,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":16,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":17,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0}],\"supported\":true},{\"uuid\":\"GPU-c749f1ac-21c2-db47-b327-9c75f5e89a8c\",\"states\":[{\"link\":0,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":1,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":2,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":3,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":4,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":5,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":6,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":7,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":8,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":9,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":10,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":11,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":12,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":13,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":14,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":15,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":16,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":17,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0}],\"supported\":true},{\"uuid\":\"GPU-20d8ff57-875c-65aa-285c-8feff4278a26\",\"states\":[{\"link\":0,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":1,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":2,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":3,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":4,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":5,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":6,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":7,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":8,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":9,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":10,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":11,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":12,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":13,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":14,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":15,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":16,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":17,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0}],\"supported\":true},{\"uuid\":\"GPU-1219bf90-9c87-865f-28d6-3ec2c4accf2b\",\"states\":[{\"link\":0,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":1,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":2,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":3,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":4,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":5,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":6,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":7,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":8,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":9,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":10,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":11,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":12,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":13,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":14,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":15,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":16,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":17,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0}],\"supported\":true},{\"uuid\":\"GPU-ac23289f-8b6b-32b7-2fa1-e76baaf2da4c\",\"states\":[{\"link\":0,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":1,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":2,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":3,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":4,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":5,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":6,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":7,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":8,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":9,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":10,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":11,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":12,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":13,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":14,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":15,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":16,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":17,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0}],\"supported\":true},{\"uuid\":\"GPU-b707351a-d2bf-8d8a-25a1-13b057ce8bd2\",\"states\":[{\"link\":0,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":1,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":2,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":3,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":4,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":5,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":6,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":7,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":8,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":9,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":10,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":11,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":12,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":13,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":14,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":15,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":16,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":17,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0}],\"supported\":true},{\"uuid\":\"GPU-9c8ab3cd-57c5-c2d2-425f-cbfd2049afa8\",\"states\":[{\"link\":0,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":1,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":2,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":3,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":4,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":5,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":6,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":7,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":8,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":9,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":10,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":11,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":12,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":13,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":14,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":15,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":16,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0},{\"link\":17,\"feature_enabled\":true,\"replay_errors\":0,\"recovery_errors\":0,\"crc_errors\":0,\"throughput_raw_tx_bytes\":0,\"throughput_raw_rx_bytes\":0}],\"supported\":true}]}"
+        }
+      }
+    ]
+  },
+  {
+    "component": "accelerator-nvidia-peermem",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "accelerator-nvidia-peermem",
+        "name": "accelerator-nvidia-peermem",
+        "health": "Healthy",
+        "reason": "ibcore is not using peermem module",
+        "extra_info": {
+          "data": "{\"peer_mem_module_output\":{\"raw\":\"\",\"ibcore_using_peermem_module\":false}}"
+        }
+      }
+    ]
+  },
+  {
+    "component": "accelerator-nvidia-persistence-mode",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "accelerator-nvidia-persistence-mode",
+        "name": "accelerator-nvidia-persistence-mode",
+        "health": "Unhealthy",
+        "reason": "all 8 GPU(s) disabled persistence mode",
+        "extra_info": {
+          "data": "{\"persistence_modes\":[{\"uuid\":\"GPU-ac23289f-8b6b-32b7-2fa1-e76baaf2da4c\",\"enabled\":false,\"supported\":true},{\"uuid\":\"GPU-b707351a-d2bf-8d8a-25a1-13b057ce8bd2\",\"enabled\":false,\"supported\":true},{\"uuid\":\"GPU-9c8ab3cd-57c5-c2d2-425f-cbfd2049afa8\",\"enabled\":false,\"supported\":true},{\"uuid\":\"GPU-eaf8cdef-4ac5-8a00-abfa-89f7d6ddb848\",\"enabled\":false,\"supported\":true},{\"uuid\":\"GPU-e40241fa-ebb5-3c5b-3990-657a500956b8\",\"enabled\":false,\"supported\":true},{\"uuid\":\"GPU-c749f1ac-21c2-db47-b327-9c75f5e89a8c\",\"enabled\":false,\"supported\":true},{\"uuid\":\"GPU-20d8ff57-875c-65aa-285c-8feff4278a26\",\"enabled\":false,\"supported\":true},{\"uuid\":\"GPU-1219bf90-9c87-865f-28d6-3ec2c4accf2b\",\"enabled\":false,\"supported\":true}]}"
+        }
+      }
+    ]
+  },
+  {
+    "component": "accelerator-nvidia-power",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "accelerator-nvidia-power",
+        "name": "accelerator-nvidia-power",
+        "health": "Healthy",
+        "reason": "all 8 GPU(s) were checked, no power issue found",
+        "extra_info": {
+          "data": "{\"powers\":[{\"uuid\":\"GPU-20d8ff57-875c-65aa-285c-8feff4278a26\",\"usage_milli_watts\":126345,\"enforced_limit_milli_watts\":700000,\"management_limit_milli_watts\":700000,\"used_percent\":\"18.05\",\"get_power_usage_supported\":false,\"get_power_limit_supported\":false,\"get_power_management_limit_supported\":false},{\"uuid\":\"GPU-1219bf90-9c87-865f-28d6-3ec2c4accf2b\",\"usage_milli_watts\":125513,\"enforced_limit_milli_watts\":700000,\"management_limit_milli_watts\":700000,\"used_percent\":\"17.93\",\"get_power_usage_supported\":false,\"get_power_limit_supported\":false,\"get_power_management_limit_supported\":false},{\"uuid\":\"GPU-ac23289f-8b6b-32b7-2fa1-e76baaf2da4c\",\"usage_milli_watts\":125180,\"enforced_limit_milli_watts\":700000,\"management_limit_milli_watts\":700000,\"used_percent\":\"17.88\",\"get_power_usage_supported\":false,\"get_power_limit_supported\":false,\"get_power_management_limit_supported\":false},{\"uuid\":\"GPU-b707351a-d2bf-8d8a-25a1-13b057ce8bd2\",\"usage_milli_watts\":129807,\"enforced_limit_milli_watts\":700000,\"management_limit_milli_watts\":700000,\"used_percent\":\"18.54\",\"get_power_usage_supported\":false,\"get_power_limit_supported\":false,\"get_power_management_limit_supported\":false},{\"uuid\":\"GPU-9c8ab3cd-57c5-c2d2-425f-cbfd2049afa8\",\"usage_milli_watts\":116975,\"enforced_limit_milli_watts\":700000,\"management_limit_milli_watts\":700000,\"used_percent\":\"16.71\",\"get_power_usage_supported\":false,\"get_power_limit_supported\":false,\"get_power_management_limit_supported\":false},{\"uuid\":\"GPU-eaf8cdef-4ac5-8a00-abfa-89f7d6ddb848\",\"usage_milli_watts\":122734,\"enforced_limit_milli_watts\":700000,\"management_limit_milli_watts\":700000,\"used_percent\":\"17.53\",\"get_power_usage_supported\":false,\"get_power_limit_supported\":false,\"get_power_management_limit_supported\":false},{\"uuid\":\"GPU-e40241fa-ebb5-3c5b-3990-657a500956b8\",\"usage_milli_watts\":124617,\"enforced_limit_milli_watts\":700000,\"management_limit_milli_watts\":700000,\"used_percent\":\"17.80\",\"get_power_usage_supported\":false,\"get_power_limit_supported\":false,\"get_power_management_limit_supported\":false},{\"uuid\":\"GPU-c749f1ac-21c2-db47-b327-9c75f5e89a8c\",\"usage_milli_watts\":124109,\"enforced_limit_milli_watts\":700000,\"management_limit_milli_watts\":700000,\"used_percent\":\"17.73\",\"get_power_usage_supported\":false,\"get_power_limit_supported\":false,\"get_power_management_limit_supported\":false}]}"
+        }
+      }
+    ]
+  },
+  {
+    "component": "accelerator-nvidia-processes",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "accelerator-nvidia-processes",
+        "name": "accelerator-nvidia-processes",
+        "health": "Healthy",
+        "reason": "all 8 GPU(s) were checked, no process issue found",
+        "extra_info": {
+          "data": "{\"processes\":[{\"uuid\":\"GPU-9c8ab3cd-57c5-c2d2-425f-cbfd2049afa8\",\"running_processes\":[{\"pid\":3566968,\"status\":[\"sleep\"],\"cmd_args\":[\"/home/alex/.venv/bin/python3\",\"-c\",\"from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=44, pipe_handle=39)\",\"--multiprocessing-fork\"],\"create_time\":\"2025-06-25T22:20:34Z\",\"gpu_used_memory_bytes\":76707528704,\"gpu_used_memory_bytes_humanized\":\"77 GB\"}],\"get_compute_running_processes_supported\":true,\"get_process_utilization_supported\":true},{\"uuid\":\"GPU-eaf8cdef-4ac5-8a00-abfa-89f7d6ddb848\",\"running_processes\":[{\"pid\":3566969,\"status\":[\"sleep\"],\"cmd_args\":[\"/home/alex/.venv/bin/python3\",\"-c\",\"from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=44, pipe_handle=46)\",\"--multiprocessing-fork\"],\"create_time\":\"2025-06-25T22:20:34Z\",\"gpu_used_memory_bytes\":76707528704,\"gpu_used_memory_bytes_humanized\":\"77 GB\"}],\"get_compute_running_processes_supported\":true,\"get_process_utilization_supported\":true},{\"uuid\":\"GPU-e40241fa-ebb5-3c5b-3990-657a500956b8\",\"running_processes\":[{\"pid\":3566971,\"status\":[\"sleep\"],\"cmd_args\":[\"/home/alex/.venv/bin/python3\",\"-c\",\"from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=44, pipe_handle=50)\",\"--multiprocessing-fork\"],\"create_time\":\"2025-06-25T22:20:34Z\",\"gpu_used_memory_bytes\":76707528704,\"gpu_used_memory_bytes_humanized\":\"77 GB\"}],\"get_compute_running_processes_supported\":true,\"get_process_utilization_supported\":true},{\"uuid\":\"GPU-c749f1ac-21c2-db47-b327-9c75f5e89a8c\",\"running_processes\":[{\"pid\":3566972,\"status\":[\"sleep\"],\"cmd_args\":[\"/home/alex/.venv/bin/python3\",\"-c\",\"from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=44, pipe_handle=54)\",\"--multiprocessing-fork\"],\"create_time\":\"2025-06-25T22:20:34Z\",\"gpu_used_memory_bytes\":76707528704,\"gpu_used_memory_bytes_humanized\":\"77 GB\"}],\"get_compute_running_processes_supported\":true,\"get_process_utilization_supported\":true},{\"uuid\":\"GPU-20d8ff57-875c-65aa-285c-8feff4278a26\",\"running_processes\":[{\"pid\":3566973,\"status\":[\"sleep\"],\"cmd_args\":[\"/home/alex/.venv/bin/python3\",\"-c\",\"from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=44, pipe_handle=58)\",\"--multiprocessing-fork\"],\"create_time\":\"2025-06-25T22:20:34Z\",\"gpu_used_memory_bytes\":76707528704,\"gpu_used_memory_bytes_humanized\":\"77 GB\"}],\"get_compute_running_processes_supported\":true,\"get_process_utilization_supported\":true},{\"uuid\":\"GPU-1219bf90-9c87-865f-28d6-3ec2c4accf2b\",\"running_processes\":[{\"pid\":3566976,\"status\":[\"sleep\"],\"cmd_args\":[\"/home/alex/.venv/bin/python3\",\"-c\",\"from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=44, pipe_handle=62)\",\"--multiprocessing-fork\"],\"create_time\":\"2025-06-25T22:20:34Z\",\"gpu_used_memory_bytes\":76707528704,\"gpu_used_memory_bytes_humanized\":\"77 GB\"}],\"get_compute_running_processes_supported\":true,\"get_process_utilization_supported\":true},{\"uuid\":\"GPU-ac23289f-8b6b-32b7-2fa1-e76baaf2da4c\",\"running_processes\":[{\"pid\":3566977,\"status\":[\"sleep\"],\"cmd_args\":[\"/home/alex/.venv/bin/python3\",\"-c\",\"from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=44, pipe_handle=66)\",\"--multiprocessing-fork\"],\"create_time\":\"2025-06-25T22:20:34Z\",\"gpu_used_memory_bytes\":76204212224,\"gpu_used_memory_bytes_humanized\":\"76 GB\"}],\"get_compute_running_processes_supported\":true,\"get_process_utilization_supported\":true},{\"uuid\":\"GPU-b707351a-d2bf-8d8a-25a1-13b057ce8bd2\",\"running_processes\":[{\"pid\":3566830,\"status\":[\"sleep\"],\"cmd_args\":[\"/home/alex/.venv/bin/python3\",\"-c\",\"from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=44, pipe_handle=46)\",\"--multiprocessing-fork\"],\"create_time\":\"2025-06-25T22:20:28Z\",\"gpu_used_memory_bytes\":78888566784,\"gpu_used_memory_bytes_humanized\":\"79 GB\"}],\"get_compute_running_processes_supported\":true,\"get_process_utilization_supported\":true}]}"
+        }
+      }
+    ]
+  },
+  {
+    "component": "accelerator-nvidia-remapped-rows",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "accelerator-nvidia-remapped-rows",
+        "name": "accelerator-nvidia-remapped-rows",
+        "health": "Healthy",
+        "reason": "8 devices support remapped rows and found no issue",
+        "extra_info": {
+          "data": "{\"product_name\":\"NVIDIA-H100-80GB-HBM3\",\"memory_error_management_capabilities\":{\"error_containment\":true,\"dynamic_page_offlining\":true,\"row_remapping\":true},\"remapped_rows\":[{\"uuid\":\"GPU-ac23289f-8b6b-32b7-2fa1-e76baaf2da4c\",\"remapped_due_to_correctable_errors\":0,\"remapped_due_to_uncorrectable_errors\":0,\"remapping_pending\":false,\"remapping_failed\":false,\"supported\":true},{\"uuid\":\"GPU-b707351a-d2bf-8d8a-25a1-13b057ce8bd2\",\"remapped_due_to_correctable_errors\":0,\"remapped_due_to_uncorrectable_errors\":0,\"remapping_pending\":false,\"remapping_failed\":false,\"supported\":true},{\"uuid\":\"GPU-9c8ab3cd-57c5-c2d2-425f-cbfd2049afa8\",\"remapped_due_to_correctable_errors\":0,\"remapped_due_to_uncorrectable_errors\":0,\"remapping_pending\":false,\"remapping_failed\":false,\"supported\":true},{\"uuid\":\"GPU-eaf8cdef-4ac5-8a00-abfa-89f7d6ddb848\",\"remapped_due_to_correctable_errors\":0,\"remapped_due_to_uncorrectable_errors\":0,\"remapping_pending\":false,\"remapping_failed\":false,\"supported\":true},{\"uuid\":\"GPU-e40241fa-ebb5-3c5b-3990-657a500956b8\",\"remapped_due_to_correctable_errors\":0,\"remapped_due_to_uncorrectable_errors\":0,\"remapping_pending\":false,\"remapping_failed\":false,\"supported\":true},{\"uuid\":\"GPU-c749f1ac-21c2-db47-b327-9c75f5e89a8c\",\"remapped_due_to_correctable_errors\":0,\"remapped_due_to_uncorrectable_errors\":0,\"remapping_pending\":false,\"remapping_failed\":false,\"supported\":true},{\"uuid\":\"GPU-20d8ff57-875c-65aa-285c-8feff4278a26\",\"remapped_due_to_correctable_errors\":0,\"remapped_due_to_uncorrectable_errors\":0,\"remapping_pending\":false,\"remapping_failed\":false,\"supported\":true},{\"uuid\":\"GPU-1219bf90-9c87-865f-28d6-3ec2c4accf2b\",\"remapped_due_to_correctable_errors\":0,\"remapped_due_to_uncorrectable_errors\":0,\"remapping_pending\":false,\"remapping_failed\":false,\"supported\":true}]}"
+        }
+      }
+    ]
+  },
+  {
+    "component": "accelerator-nvidia-temperature",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "accelerator-nvidia-temperature",
+        "name": "accelerator-nvidia-temperature",
+        "health": "Healthy",
+        "reason": "all 8 GPU(s) were checked, no temperature issue found",
+        "extra_info": {
+          "data": "{\"temperatures\":[{\"uuid\":\"GPU-9c8ab3cd-57c5-c2d2-425f-cbfd2049afa8\",\"current_celsius_gpu_core\":43,\"threshold_celsius_shutdown\":95,\"threshold_celsius_slowdown\":89,\"threshold_celsius_mem_max\":95,\"threshold_celsius_gpu_max\":87,\"used_percent_shutdown\":\"45.26\",\"used_percent_slowdown\":\"48.31\",\"used_percent_mem_max\":\"45.26\",\"used_percent_gpu_max\":\"49.43\"},{\"uuid\":\"GPU-eaf8cdef-4ac5-8a00-abfa-89f7d6ddb848\",\"current_celsius_gpu_core\":44,\"threshold_celsius_shutdown\":95,\"threshold_celsius_slowdown\":89,\"threshold_celsius_mem_max\":95,\"threshold_celsius_gpu_max\":87,\"used_percent_shutdown\":\"46.32\",\"used_percent_slowdown\":\"49.44\",\"used_percent_mem_max\":\"46.32\",\"used_percent_gpu_max\":\"50.57\"},{\"uuid\":\"GPU-e40241fa-ebb5-3c5b-3990-657a500956b8\",\"current_celsius_gpu_core\":42,\"threshold_celsius_shutdown\":95,\"threshold_celsius_slowdown\":89,\"threshold_celsius_mem_max\":95,\"threshold_celsius_gpu_max\":87,\"used_percent_shutdown\":\"44.21\",\"used_percent_slowdown\":\"47.19\",\"used_percent_mem_max\":\"44.21\",\"used_percent_gpu_max\":\"48.28\"},{\"uuid\":\"GPU-c749f1ac-21c2-db47-b327-9c75f5e89a8c\",\"current_celsius_gpu_core\":42,\"threshold_celsius_shutdown\":95,\"threshold_celsius_slowdown\":89,\"threshold_celsius_mem_max\":95,\"threshold_celsius_gpu_max\":87,\"used_percent_shutdown\":\"44.21\",\"used_percent_slowdown\":\"47.19\",\"used_percent_mem_max\":\"44.21\",\"used_percent_gpu_max\":\"48.28\"},{\"uuid\":\"GPU-20d8ff57-875c-65aa-285c-8feff4278a26\",\"current_celsius_gpu_core\":45,\"threshold_celsius_shutdown\":95,\"threshold_celsius_slowdown\":89,\"threshold_celsius_mem_max\":95,\"threshold_celsius_gpu_max\":87,\"used_percent_shutdown\":\"47.37\",\"used_percent_slowdown\":\"50.56\",\"used_percent_mem_max\":\"47.37\",\"used_percent_gpu_max\":\"51.72\"},{\"uuid\":\"GPU-1219bf90-9c87-865f-28d6-3ec2c4accf2b\",\"current_celsius_gpu_core\":44,\"threshold_celsius_shutdown\":95,\"threshold_celsius_slowdown\":89,\"threshold_celsius_mem_max\":95,\"threshold_celsius_gpu_max\":87,\"used_percent_shutdown\":\"46.32\",\"used_percent_slowdown\":\"49.44\",\"used_percent_mem_max\":\"46.32\",\"used_percent_gpu_max\":\"50.57\"},{\"uuid\":\"GPU-ac23289f-8b6b-32b7-2fa1-e76baaf2da4c\",\"current_celsius_gpu_core\":42,\"threshold_celsius_shutdown\":95,\"threshold_celsius_slowdown\":89,\"threshold_celsius_mem_max\":95,\"threshold_celsius_gpu_max\":87,\"used_percent_shutdown\":\"44.21\",\"used_percent_slowdown\":\"47.19\",\"used_percent_mem_max\":\"44.21\",\"used_percent_gpu_max\":\"48.28\"},{\"uuid\":\"GPU-b707351a-d2bf-8d8a-25a1-13b057ce8bd2\",\"current_celsius_gpu_core\":42,\"threshold_celsius_shutdown\":95,\"threshold_celsius_slowdown\":89,\"threshold_celsius_mem_max\":95,\"threshold_celsius_gpu_max\":87,\"used_percent_shutdown\":\"44.21\",\"used_percent_slowdown\":\"47.19\",\"used_percent_mem_max\":\"44.21\",\"used_percent_gpu_max\":\"48.28\"}]}"
+        }
+      }
+    ]
+  },
+  {
+    "component": "accelerator-nvidia-utilization",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "accelerator-nvidia-utilization",
+        "name": "accelerator-nvidia-utilization",
+        "health": "Healthy",
+        "reason": "all 8 GPU(s) were checked, no utilization issue found",
+        "extra_info": {
+          "data": "{\"utilizations\":[{\"uuid\":\"GPU-20d8ff57-875c-65aa-285c-8feff4278a26\",\"gpu_used_percent\":0,\"memory_used_percent\":0,\"supported\":true},{\"uuid\":\"GPU-1219bf90-9c87-865f-28d6-3ec2c4accf2b\",\"gpu_used_percent\":0,\"memory_used_percent\":0,\"supported\":true},{\"uuid\":\"GPU-ac23289f-8b6b-32b7-2fa1-e76baaf2da4c\",\"gpu_used_percent\":0,\"memory_used_percent\":0,\"supported\":true},{\"uuid\":\"GPU-b707351a-d2bf-8d8a-25a1-13b057ce8bd2\",\"gpu_used_percent\":0,\"memory_used_percent\":0,\"supported\":true},{\"uuid\":\"GPU-9c8ab3cd-57c5-c2d2-425f-cbfd2049afa8\",\"gpu_used_percent\":0,\"memory_used_percent\":0,\"supported\":true},{\"uuid\":\"GPU-eaf8cdef-4ac5-8a00-abfa-89f7d6ddb848\",\"gpu_used_percent\":0,\"memory_used_percent\":0,\"supported\":true},{\"uuid\":\"GPU-e40241fa-ebb5-3c5b-3990-657a500956b8\",\"gpu_used_percent\":0,\"memory_used_percent\":0,\"supported\":true},{\"uuid\":\"GPU-c749f1ac-21c2-db47-b327-9c75f5e89a8c\",\"gpu_used_percent\":0,\"memory_used_percent\":0,\"supported\":true}]}"
+        }
+      }
+    ]
+  },
+  {
+    "component": "containerd",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "containerd",
+        "name": "containerd",
+        "health": "Healthy",
+        "reason": "containerd installed and active but containerd CRI is not enabled",
+        "error": "rpc error: code = Unimplemented desc = unknown service runtime.v1.RuntimeService"
+      }
+    ]
+  },
+  {
+    "component": "cpu",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "cpu",
+        "name": "cpu",
+        "health": "Healthy",
+        "reason": "ok",
+        "extra_info": {
+          "data": "{\"cores\":{\"logical\":128},\"usage\":{\"used_percent\":\"0.13\",\"load_avg_1min\":\"0.49\",\"load_avg_5min\":\"0.26\",\"load_avg_15min\":\"0.18\"}}"
+        }
+      }
+    ]
+  },
+  {
+    "component": "disk",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "disk",
+        "name": "disk",
+        "health": "Healthy",
+        "reason": "ok",
+        "extra_info": {
+          "data": "{\"ext_partitions\":[{\"device\":\"/dev/dm-1\",\"fstype\":\"ext4\",\"mount_point\":\"/home\",\"mounted\":true,\"usage\":{\"total_bytes\":7509992988672,\"free_bytes\":5189494632448,\"used_bytes\":1941939142656}},{\"device\":\"/dev/dm-0\",\"fstype\":\"ext4\",\"mount_point\":\"/\",\"mounted\":true,\"usage\":{\"total_bytes\":105089261568,\"free_bytes\":5218885632,\"used_bytes\":94484889600}},{\"device\":\"/dev/nvme0n1p2\",\"fstype\":\"ext4\",\"mount_point\":\"/boot\",\"mounted\":true,\"usage\":{\"total_bytes\":2040373248,\"free_bytes\":1713950720,\"used_bytes\":202272768}}],\"nfs_partitions\":[],\"block_devices\":[{\"name\":\"/dev/mapper/ubuntu--vg-home\",\"type\":\"lvm\",\"size\":7570848743424,\"mountpoint\":\"/home\",\"fstype\":\"ext4\",\"fsused\":1941939142656,\"parents\":[\"/dev/nvme0n1p3\"]},{\"name\":\"/dev/mapper/ubuntu--vg-ubuntu--lv\",\"type\":\"lvm\",\"size\":107374182400,\"mountpoint\":\"/\",\"fstype\":\"ext4\",\"fsused\":94484893696,\"parents\":[\"/dev/nvme0n1p3\"]},{\"name\":\"/dev/nvme0n1\",\"type\":\"disk\",\"size\":7681501126656,\"serial\":\"S6CKNC0W600403\",\"wwn\":\"eui.36434b30576004030025384300000001\",\"model\":\"SAMSUNG MZQL27T6HBLA-00A07\",\"rev\":\"GDC5A02Q\",\"children\":[\"/dev/nvme0n1p2\",\"/dev/nvme0n1p3\"]},{\"name\":\"/dev/nvme0n1p2\",\"type\":\"part\",\"size\":2147483648,\"wwn\":\"eui.36434b30576004030025384300000001\",\"mountpoint\":\"/boot\",\"fstype\":\"ext4\",\"fsused\":202272768,\"partuuid\":\"dd7c739e-2d6b-4b07-91c5-0535a54e86e9\",\"parents\":[\"/dev/nvme0n1\"]},{\"name\":\"/dev/nvme0n1p3\",\"type\":\"part\",\"size\":7678223974400,\"wwn\":\"eui.36434b30576004030025384300000001\",\"fstype\":\"LVM2_member\",\"partuuid\":\"981dbaf6-a9f6-45f9-bf9e-fc62bafff4bb\",\"parents\":[\"/dev/nvme0n1\"],\"children\":[\"/dev/mapper/ubuntu--vg-ubuntu--lv\",\"/dev/mapper/ubuntu--vg-home\"]},{\"name\":\"/dev/nvme1n1\",\"type\":\"disk\",\"serial\":\"S4BGNY0N803378\",\"wwn\":\"eui.344247304e8033780025385900000001\",\"model\":\"SAMSUNG MZQLB7T6HMLA-00007\",\"rev\":\"EDB5202Q\",\"children\":[\"/dev/nvme1n1p1\"]},{\"name\":\"/dev/nvme1n1p1\",\"type\":\"part\",\"size\":7681500061184,\"wwn\":\"eui.344247304e8033780025385900000001\",\"parents\":[\"/dev/nvme1n1\"]},{\"name\":\"/dev/nvme2n1\",\"type\":\"disk\",\"serial\":\"S4BGNY0N803396\",\"wwn\":\"eui.344247304e8033960025385900000001\",\"model\":\"SAMSUNG MZQLB7T6HMLA-00007\",\"rev\":\"EDB5202Q\",\"children\":[\"/dev/nvme2n1p1\"]},{\"name\":\"/dev/nvme2n1p1\",\"type\":\"part\",\"size\":7681499725824,\"wwn\":\"eui.344247304e8033960025385900000001\",\"parents\":[\"/dev/nvme2n1\"]}],\"device_usages\":[{\"device_name\":\"/dev/mapper/ubuntu--vg-home\",\"mountpoint\":\"/home\",\"total_bytes\":7509992988672,\"free_bytes\":5189494632448,\"used_bytes\":1941939142656},{\"device_name\":\"/dev/mapper/ubuntu--vg-ubuntu--lv\",\"mountpoint\":\"/\",\"total_bytes\":105089261568,\"free_bytes\":5218885632,\"used_bytes\":94484889600},{\"device_name\":\"/dev/nvme0n1p2\",\"mountpoint\":\"/boot\",\"total_bytes\":2040373248,\"free_bytes\":1713950720,\"used_bytes\":202272768}],\"mount_target_usages\":{\"/\":{\"target\":\"/\",\"filesystems\":[{\"mounted_point\":\"/\",\"sources\":[\"/dev/mapper/ubuntu--vg-ubuntu--lv\"],\"fstype\":\"ext4\",\"size_humanized\":\"97.9G\",\"size_bytes\":97900000000,\"used_humanized\":\"88G\",\"used_bytes\":88000000000,\"available_humanized\":\"4.9G\",\"available_bytes\":4900000000,\"used_percent_humanized\":\"90%\",\"used_percent\":90}]}}}"
+        }
+      }
+    ]
+  },
+  {
+    "component": "docker",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "docker",
+        "name": "docker",
+        "health": "Healthy",
+        "reason": "ok"
+      }
+    ]
+  },
+  {
+    "component": "fuse",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "fuse",
+        "name": "fuse",
+        "health": "Healthy",
+        "reason": "successfully fuse connection(s)",
+        "extra_info": {
+          "data": "{\"connection_infos\":null}"
+        }
+      }
+    ]
+  },
+  {
+    "component": "kernel-module",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "kernel-module",
+        "name": "kernel-module",
+        "health": "Healthy",
+        "reason": "all modules are loaded"
+      }
+    ]
+  },
+  {
+    "component": "kubelet",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "kubelet",
+        "name": "kubelet",
+        "health": "Healthy",
+        "reason": "kubelet is not installed"
+      }
+    ]
+  },
+  {
+    "component": "library",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "library",
+        "name": "library",
+        "health": "Healthy",
+        "reason": "all libraries exist",
+        "extra_info": {
+          "data": "{\"resolved_libraries\":[\"/usr/lib/x86_64-linux-gnu/libcuda.so.565.57.01\",\"/usr/lib/x86_64-linux-gnu/libnvidia-ml.so.565.57.01\"]}"
+        }
+      }
+    ]
+  },
+  {
+    "component": "memory",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "memory",
+        "name": "memory",
+        "health": "Healthy",
+        "reason": "ok",
+        "extra_info": {
+          "data": "{\"total_bytes\":2164174151680,\"available_bytes\":2054924791808,\"used_bytes\":29357858816,\"used_percent\":\"1.36\",\"free_bytes\":19326738432,\"vm_alloc_total_bytes\":14073748835531776,\"vm_alloc_used_bytes\":1487138816,\"bpf_jit_buffer_bytes\":4210688}"
+        }
+      }
+    ]
+  },
+  {
+    "component": "network-latency",
+    "states": [
+      {
+        "time": "2025-07-08T21:12:18Z",
+        "component": "network-latency",
+        "name": "network-latency",
+        "health": "Healthy",
+        "reason": "no data yet"
+      }
+    ]
+  },
+  {
+    "component": "nfs",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "nfs",
+        "name": "nfs",
+        "health": "Healthy",
+        "reason": "no nfs group configs found"
+      }
+    ]
+  },
+  {
+    "component": "os",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "os",
+        "name": "os",
+        "health": "Healthy",
+        "reason": "ok",
+        "extra_info": {
+          "data": "{\"virtualization_environment\":{\"type\":\"none\",\"vm\":\"none\",\"container\":\"none\",\"is_kvm\":false},\"system_manufacturer\":\"Supermicro\",\"machine_metadata\":{\"boot_id\":\"40cee1cc-7425-42df-93a1-5ab6ad4a4f52\",\"dmidecode_uuid\":\"4700d600-8d19-11ee-8000-7cc255867814\",\"os_machine_id\":\"7f714e3e5ba94b10ad835b93091c0500\"},\"host\":{\"id\":\"4700d600-8d19-11ee-8000-7cc255867814\"},\"kernel\":{\"arch\":\"x86_64\",\"version\":\"6.8.0-60-generic\"},\"platform\":{\"name\":\"ubuntu\",\"family\":\"debian\",\"version\":\"24.04\"},\"uptimes\":{\"seconds\":3363562,\"boot_time_unix_seconds\":1748645542},\"zombie_processes\":0,\"file_descriptors\":{\"allocated_file_handles\":10240,\"running_pids\":1562,\"usage\":2391,\"limit\":9223372036854775807,\"allocated_file_handles_percent\":\"0.00\",\"used_percent\":\"0.00\",\"threshold_allocated_file_handles\":10000000,\"threshold_allocated_file_handles_percent\":\"0.02\",\"threshold_running_pids\":900000,\"threshold_running_pids_percent\":\"0.17\",\"file_handles_supported\":true,\"fd_limit_supported\":true}}"
+        }
+      }
+    ]
+  },
+  {
+    "component": "pci",
+    "states": [
+      {
+        "time": "2025-07-08T21:12:18Z",
+        "component": "pci",
+        "name": "pci",
+        "health": "Healthy",
+        "reason": "no data yet"
+      }
+    ]
+  },
+  {
+    "component": "tailscale",
+    "states": [
+      {
+        "time": "2025-07-08T21:11:44Z",
+        "component": "tailscale",
+        "name": "tailscale",
+        "health": "Healthy",
+        "reason": "tailscaled is not installed",
+        "extra_info": {
+          "data": "{\"tailscaled_service_active\":false}"
+        }
+      }
+    ]
+  }
+]
