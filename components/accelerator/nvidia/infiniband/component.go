@@ -194,6 +194,10 @@ func (c *component) Check() components.CheckResult {
 
 	// nothing specified for this machine, gpud MUST skip the ib check
 	thresholds := c.getThresholdsFunc()
+	thresholds = infiniband.ExpectedPortStates{
+		AtLeastPorts: 8,
+		AtLeastRate:  400,
+	}
 	if thresholds.IsZero() {
 		cr.health = apiv1.HealthStateTypeHealthy
 		cr.reason = reasonNoThreshold
